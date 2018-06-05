@@ -1,0 +1,114 @@
+一、 回顾上周知识点
+	1.  创建django项目
+		前提： 安装django : pip install django==2.0.5 		在创建项目时，同时创建app模块（mainapp）
+
+	2. 项目结构
+		和项目同名的文件目录(package 包)， 存放了项目的配置信息：
+		__init__.py:  初始化项目， 一般导入pymysql包，执行mysql的初始化安装操作。
+		settings.py  ： 可以配置安装的应用模块信息、数据库连接、模板目录位置、静态文件位置、项目的DEBUG模式以及语言和地区设置。
+		urls.py  ： 面向所有客户端的请求分发处理(views)的总路由
+						path(‘请求路径’, 请求处理的views函数), views请求处理函数的定义：函数的形参必须有一个request, 函数必须返回一个response(HttpResponse)
+
+	3. templates 目录， 存放是可以被渲染html模板文件。
+
+	4. 应用目录
+		models.py  定义数据操作相关的模型类，
+						模型类必须继承models.Model,
+						类中的属性必须使用models模块指定的字段类型：
+							CharField(max_length=10)
+							IntegerField(default=0,choice=((0,’aa’),))
+							FloatField()
+							DecimalField(max_digits=10, decimal_places=2)
+							DateField(auto_now=True)
+							DateTimeField(auto_now_add=True)
+							BooleanField(default=True)
+							AutoField(auto_create=True, primary_key=True)
+
+							OneToOneField(关联的模型类，
+												on_delete=models.CASCADE)
+							ForeignKey(关联的模型类，
+											on_delete=models.SET_NULL,
+											null=True )
+							claz =  ManyToMany(关联的模型类),
+							 # ManyRelatedManager类型， teacher.claz.all()
+
+	5.  模板template语法
+			1）  变量  {{ 变量名 }}
+			2)  标签
+					｛％ if  表达式  ％｝ 。
+						{% elif 表达式 %}  。。
+						{% else %} 。。。
+					 ｛% endif %｝
+					 ｛％ for  变量名  in 列表名 %}
+								{{ forloop.counter }}
+					 	{% endfor %}
+
+				过滤器
+					{{ 变量名 |length} 长度
+								  |cut:’去除的字符’
+								  |upper
+								  |lower
+					     _list  |join:’,’
+								  |escape   不转义html
+								  |safe   转义html
+								  |urlencode
+								  |date:’Y-m-d H:i:s’  日期格式化
+								  |filesizeformat  文件大小格式化， 1K, 10M
+								  |floatformat:-2   小数类型格式化
+
+				布局的三大标签
+					{% block  板块的id  ％｝
+					{% extends “模板文件名.html”  ％｝
+					{% include “模板文件名.html”  %}
+
+
+  6.  模型类查询的相关函数
+	1)一般用法：
+	模型类.objects.all()|filter()|exclude() | values()|delete()|update()
+   2) 创建对象
+		a. 模型类.objects.create(属性名=值,..)
+		b. 创建类并保存
+			对象名 = 模型类()
+			对象名.属性名 = 值
+			对象名.save()
+
+	3) Q和F （models.Q和models.F）
+		Q可以组合多个条件：  & 与,  ｜ 或 ,  ~ 非
+		F 获取属性字段的值， 可以用于条件，也可以运算
+
+		如： Stu (*) -> Clazz (1)
+				claz  = ForeignKey(Clazz)
+
+		查询 “2班”（name）的所有学生，
+	  并给他们的成绩(score)额外地增加10分
+		Stu.objects.filter(claz__name=‘2班’)
+		    .update(score=F(‘score’)+10)
+
+	4）. 聚合函数 （Max， Min, Avg,  Sum, Count）->models模块
+		Stu.objects.aggregate(max_score=Max(‘score’),
+				avg_score=Avg(‘score’))
+
+ 7. views相关的函数
+	1) request - > HttpRequest 请求
+		属性： method  请求方法(GET, POST)
+					GET   封装请求参数的QueryDict查询字典
+
+	2）response -> HttpResponse 响应
+		 请求处理函数必须要返回的对象类型，
+		 return HttpResponse(‘<h1>ok</h1>’)
+		 return HttpResponseRedirect(‘/bank/’)  重定向到另一个请求
+		 return JsonReponse({“datas”: xxx})  响应json数据
+		 return render(request, “模板文件.html”, {“data”:xxx})
+
+8. 请求URL传值
+	http://127.0.0.1:8000/bank/delete/1
+	http://127.0.0.1:8000/bank/update/1
+
+	url路由配置
+		path(‘update/<int:id>’ ,  views.update)
+
+	处理函数中:
+		def update(req, id=0,name=None):
+			….
+
+

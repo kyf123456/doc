@@ -1,0 +1,23 @@
+1.  将a.txt的内容 追加到 b.txt文件中
+	cat a.txt >> b.txt
+
+2. 读取b.txt文件的内容，并去除重复的，同时倒序方式排列，并支持数值排序
+	cat b.txt | sort -rg | uniq
+
+3. 查看disen用户所属组（主组和附加组）的信息
+	id disen
+	cat /etc/group | grep disen
+
+	注意: 主组即是用户名
+4. 查看当前系统下所有用户名及它的home目录
+	cat /etc/passwd  | cut -d: -f1,6 | grep ‘/home’
+
+5. ssh的服务启动与关闭
+	sudo service ssh start
+	sudo service ssh stop
+	sudo service ssh status  # 查看状态
+
+6. 现有用户tomy和cindy，如何将cindy的主组以附加组的方式添加给tomy
+
+	sudo usermod tomy -G cindy -a  # -a和-G组合使用， 表示追加一个新的附加组
+

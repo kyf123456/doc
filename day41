@@ -1,0 +1,128 @@
+一、回顾上周的知识点
+ 1. HTML
+    块元素： <div><p><ul><ol><li><table><tr><thead><form>、<h1>
+	 内联元素：<span>、<a>、<em>、<strong>、<img>、<input>、<button>
+	 分隔线:  <hr>
+	 特殊符号： <br>、&nbsp;  &gt;  &lt;
+	 媒体： <audio> <video> <source>
+	 内嵌窗口： <iframe>
+
+2.  CSS
+	背景：  background、background-color, background-image, background-style, background-size
+
+	字体： color, font, font-size, font-weight,font-style,font-family
+	文本： text-align,   text-decoration, text-indent
+	盒子： border, border-top,border-radius, box-shadow, margin,padding
+	列表： list-style
+	光标： cursor
+	位置： position,   left, top, bottom, right
+	浮点： float: left|right
+	显示： display:none|block|inline|inline-block|flex(flex-direction:row|colunm)
+
+	伪类：	:hover,  :active,   :focus,  :before  ,  :after
+
+3. JS
+	 函数： function 函数名(形参)｛ 语句; ｝
+	 数据： “abc”, Number(), parseInt(),  parseFloat() , Math.random()/round()
+	 对象： new Object(),   {属性名:属性值 }，
+			   构造函数->  function Person(参数列表){
+					this.属性名＝ 参数名
+				}
+
+				元型对象prototype（类的超级父类）
+				Person.prototype.函数名或属性名 ＝ function(){} 或 属性值
+	 DOM:
+			  获取DOM对象： document.getElementById()
+										document.getElementsByName()
+										document.getElementsByTagName()
+										document.getElementsByClassName()
+
+				设置dom对象内容：
+							innertHTML
+							inertText
+
+				创建dom对象：
+						document.createElement(“标签名”)
+
+				添加dom子节点对象
+						xxx.appendChild(子节点对象)
+
+				删除dom的子节点对象
+						xxx.removeChild( 子节点对象)
+
+				获取dom中的所有子元素(Element)对象
+						xxx.elements
+				获取dom中所有子节点的对象（包含文本节点）
+						xxx.childNodes  返回列表
+
+
+
+4.  CSS 的样式选择器
+		行内样式  : 1000 <a style=“color:red”>
+		id 选择器  :100	<a id=“aaa”>
+		class类选择器 : 10
+		标签选择器： 1   a {},   table{}
+		组合标签选择器:  a, table {}
+		包含选择器   table tr { },      #slider li { }
+		伪类选择器  tr:hover {}
+
+		注： 影响选择器的优先级：  !important,   如  color:red !important
+
+5. 	网络异步请求
+	  var  xhr = new XMLHttpRequest()
+	  xhr.open(“get”,url, true);
+	  xhr.onload= function(){
+			if(xhr.status == 200 && xhr.readyState==4)
+				var data = xhr.responseText
+				data = JSON.parse(data);  //将json字符串转成json对象
+	 }
+	 xhr.send()
+
+6. jquery
+	1） 文档加载完后的回调函数 onload
+		$(function(){
+			 //文本加载完成
+		})
+
+	2） 获取网页的dom对象 的jQuery对象
+		$(“#id”)
+		$(“.className”)
+		$(“table”)
+       $(“table tr”)
+
+		将jQuery对象转成dom元素对象
+		$(“input”).get(0) / $(“input”)[0]
+
+		将dom元素对象转成jQuery对象
+		var xxx = document.getElementById(“aaa”)
+		$(xxx)
+
+		通过 jquery对象设置dom对象的属性、样式、事件、数据
+		$(xxx).attr(“属性名”,属性值)/attr({属性名:”属性值”，})
+		$(xxx).css()
+		$(xxx).click(function(){})/ $(xxx).on(“click”,function())
+		$(xxx).data()
+		$(xxx).addClass(“样式类名”)
+		$(xxx).removeClass(“样式类名”)
+		$(xxx).append(“<a>baidu.com</a>”)
+		$(xxx).text()
+		$(xxx).html()
+		$(xxx).val()   //获取<input>标签的value属性值
+
+    3. ajax的异步请求
+		$.ajax({
+				type:”get”,
+				url:”http://aaaaa”,
+				dataType:”json”,      //设置服务器响应的数据类型
+				success:function(data){
+					   //data就是json对象类型（JSONArray [ ],   JSONObject { }）
+				}
+		})
+
+
+
+
+
+
+
+

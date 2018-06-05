@@ -1,0 +1,286 @@
+Python基础知识：
+   1.   第一个程序
+      1） 通过 cmd窗口进入Python交互环境,
+       cmd>  python
+       python>>  print("good morning")
+       good morning
+
+     关键字： print()  打印函数， 函数中有一个参数，参数值即是打印的内容。
+
+		2） 通过记事本，编写Python的脚本文件，文件的扩展名是 .py , 编写好脚本文件之后 ，在cmd窗口，通过python 命令来执行脚本：
+
+       cmd> python  p1.py
+
+		  如何编写Python 脚本文件 ：
+        创建记事本，扩展名改为.py, 内容第一行通过注释方式声明当前脚本的字符集，最后保存时必须以utf-8的编码格式保存。
+      window+R:  notepad
+
+
+		建议： 在d盘下创建文件目录:
+							codes (脚本),   notes (笔记)
+
+	   cmd> d:
+     d:> cd codes      进入到d盘下的codes文件目录中
+     d:\codes > python  p1.py
+		d:\codes > notepad  p1.py
+
+		mac/linux:
+			vi  p1.py
+			i ->— insert—
+		  esc ,  shift+:  显示命令行:  wq
+			python p1.py
+
+
+		3)  单行注释
+         # 这是单行注释   －－ －所有的注释在执行时，都不会执行
+			  print(“—”)
+			  print(“hello”)  # 打印hello, 行尾注释＃前必须空2格
+
+		4) 多行注释
+			 “””
+				多行注释，作者： disen
+				创建时间： 2018.3.13
+				当前版本： v0.0.1
+        ”””
+
+			多行注释一般用于对函数或整个脚本来说明它们功能及参数规格，
+			当在函数中使用多行注释时，一定要注意的”””前面的空格。
+
+			def add(x,y):
+					 “””
+							x :  整数
+							y:  整数
+             “””
+             return x+y
+
+
+
+	 5. print() 函数
+			print(“h1”)
+			print(‘h1’)
+			print(‘hello’, ‘disen’,’eat banana’, 120)  # 每个print()打印的内容默认追加一个字符“\n”( 换行符)
+			print(int)
+
+
+	 6. 字面常量
+			‘hello’      — 字符类型 type(‘hello’)  :  <class str>
+			‘disen’
+			120         —数值型 type(120)  :  <class int>  整数型，即不带小数点
+			99.95      —数值型 type(99.95) : <class float> 浮点型，带有小数点
+			True       —布尔型 type(True):  <class bool>  ，
+									  True表示“真”，False  表示“假”
+
+	 7. 变量
+		   name = ‘disen’  # “=”符号的前后各加一个空格
+			 name = “cindy”
+			 name = “Tom”
+
+		将字面常量赋给具有一定意义的符号，这个符号就是变量名。
+	   如果需要改变变量的值 ，则通过”变量名 =“格式重新赋予新的字面常量
+		或其它变量名
+
+		  type(name)     ?输出： <class str>
+			type(x) 打印的是数据类型
+
+			age = 21
+			type(age) : <class int>
+		   print(age)  : 21
+
+		练习： 使用变量和常量，从 书的 实物中提供特征
+
+     publish_date = ‘2018-10-31’
+		publishDate = ‘2018-10-31’
+
+	  8. 变量名的命名规则：
+        变量名中能以字母、下划线开头， 可以包括字母、数字、下划线，
+	     尤其要注意的是不能是关键字，如type, print, int ,str, float , bool
+		   另外，首字母要小写，
+		   注意： 变量名是区分大小写的。
+
+	 9.  运算符
+       算术：  ＋ ， － ， *,  / , %取余， // 取整
+						+、－ 在计算时优先级是最小的， 如果要先计算+ 或-，则使用一对小括号 （ ） ，  如 18+19/2,   (18+19)/2
+					  如果优先级相同，则从左到右依次计算。
+
+			(25+18％7)*10 = 290
+
+       23//7+(10*2/5+80) = 87.0
+			23/7+(10*2/5+80) = ?
+
+			a = 12000 + 950 + 125.5 + 127.5
+			a = a * (1-0.18)  # 收入
+		   b ＝ 8000 ＋ 1200000 *0.05 +  8000/22*0.5*10
+			 b = b *(1-0.15)
+        s = (a+b)/2  # 两人月平均收入
+
+		复合算术运算符：   +=, -= , *=, /=, %=, //=
+
+			a = 10
+			a +=15        a = 25
+			a = a+15    <==>  a +=15
+
+			a *= 5
+			a *=10
+		  a *=9     a = 11250
+		 a *= 0.7
+			a /= 4       a =?
+			a //= 2
+			a %= 8
+
+       关系运算：  ==  、 != ，  >,  <  ,  >=, <= 			运算结果： bool (True, False)
+
+			a = 1200
+       b = 9000
+
+			print(a > b)   ：  False
+		  print(a == b) :  False
+		  print(a < b):   True
+			print(a <= b):  True
+			print(a != b):   True
+
+	   扩展： 赋值时，可以同时给多个变量赋值：
+						 a, b = 1200, 9000 合法
+						 a, b = 1200  报错
+						 a = 1200, 9000
+
+		逻辑运算：   or 或,  and 且,  not 非
+		针对布尔类型的数据运算的，
+			True or True:    True		  True or False:   True
+			False or False:  False
+
+		 True and True:   True
+		 True and False:  False
+		 False and False: False
+
+		 not True:  False
+		 not False : True
+
+		 a, b = 10 , 9
+		 a > b or a == b      :   True
+		 99 + a > b : True  先计算算术表达 式， 再比较（关系运算）
+		 a = 15 - a > b
+		 a +=20    a = ?
+		 a = True
+		 a = a + 19     a = ?
+
+    在进行算术运算时，以下是成立的：
+		True: 1
+		False: 0
+
+		成员运算符：   in 在 , not in  不在
+
+			stus = [10, 22, 33, 90]
+		  if 10 in stus:
+					 print(“yes”)
+
+			ids = 1001, 1002, 1009, 1108
+			1001 in ids :    True
+			1008 in ids:     False
+			1008 not in ids:   True
+
+		  身份识别：   is 是 , is not 不是
+			‘李相龙’ is ‘disen’:  False
+			‘disen’ is ‘disen’: True
+			‘李相龙’ is not ‘disen’: True
+
+
+	10.  数据类型的处理 ：  数据转换
+
+			str: 字符类型，  str() 函数： 将非字符类型转成字符类型
+				 a = ’19’
+				 a += 20  ? 报TypeError 错误(异常), 正确的写法：
+				   > a += str(20)   ? = ‘1920’
+				 a += ’20’ ?=  ‘1920’      + 符号表示是字符串拼接
+
+			扩展： len() 函数： 计算给定内容的长度
+									 len(a) : 4
+							 dir() 函数：  显示 指定的函数成员信息
+									dir(str)
+									dir(str())
+
+					字符类型的函数：  lower() 将字符全部转成小写
+											            upper() 将字符全部转成大写
+					a = ‘Hello, Disen!’
+					a.lower() :   ‘hello, disen!’
+					a.upper():   ‘HELLO,DISEN!’
+
+			int : 整数的数值型， int():  将数字的字符串转成数值类型
+				x = ’99’
+				y = ’88’
+				x + y  = ’9988’
+          int(x) + int(y) =  187
+
+		  float: 浮点型， float() : 将带有小数点的数字字符串转成浮点型
+					h = ’186’   # cm
+					w  = ’95.6’  # kg
+				  h = float(h）
+				  w = float(w)
+				  bmi = w / (h/100)**2   # 正常范围［18.5， 24）
+
+		  bool 布尔类型，
+			bool() :  判断字符串是否为空 ‘’, 如果为空则返回False								反之 为True.
+			bool(‘’)  :  False
+			bool(‘a’):  True
+			bool(‘abc’): True
+			bool():  False
+              bool(0): False
+              bool(1): True
+  11 . input函数
+			从键盘的输入设备中接收内容 ， 内容的类型统一是str字符类型。
+			name = input(“请输入您的姓名: ”)
+
+		 扩展 print()函数的格式：  ％s, %d, %f  , %.nf  (n 保留的小数位, n  如果不存在，则表示不需要小数点)
+
+	>>> a = 'disen'
+	>>> b = 90
+	>>> c = 10.5
+	>>> d = 9.9567
+	>>> print('name: %s, height: %d, 腰围: %f, %.2f' % (a, b, c, d))
+            %s:字符串   %d:整数  %f:浮点
+
+	作为：
+			1. 通过input从键盘接收两个参数，分别代表宽度和高度，计算它们的面积
+			2. 通过input从键盘接收一个参数， 代表圆的直径，计算圆的周长和面积
+			3. 通过input从键盘接收n个参数， 分别代表 员工的某一些特征，
+			   并使用 ％s之类的格式化符号显示出来
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

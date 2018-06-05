@@ -1,0 +1,27 @@
+1. 如何基本uuid和md5来生成32位的token字符串
+    import uuid
+	import hashlib
+	md5 = hashlib.md5()
+   md5.update(str(uuid.uuid4()).encode())
+   token = md5.hexdigest()
+
+2. 如果将数据存入到session后，客户端的cookie会增加哪一个项，
+    它与django_session表的哪个字段对应
+
+	客户端的cookie中会添加一个： sessionid
+	它与django_session表的session_key对应
+
+3. 简单描述Paginator分页器的使用
+	from django.core.paginator import Paginator, Page
+	#  查询所有的数据
+	users = User.objects.all()
+	# 使用分页器，将users数据分成多页
+	paginator = Paginator(users, 10)
+	# 读取指定页码的分页对象
+	pager = paginator.page(1)   # 页号要从请求参数读取
+
+	# 从分页对象中读取分页的数据
+	datas = pager.object_list
+
+	# 在HTML页面中， 可以读取所有分页编号
+	   paginator.page_range  # （1，3）

@@ -1,0 +1,146 @@
+第七天：复习
+    字典：
+			{key:value,key:value }
+		   key类型： str, int
+			 value类型： 任意
+		人员字典：
+			{‘id’:10101, ‘name’:’disen’,’age’:20}
+ 	   人员信息库的字典：
+		ss= {1:{‘id’:101,’name’:’jack’},
+           2:{‘id’:102, ‘name’:’cici’} }
+
+     ss.get(1).get(‘id’)  返回 101
+
+		读取所有人员信息的id或name属性值
+			for key in ss.keys():
+            id = ss.get(key).get(‘id’)
+
+			get(key) 当key不存在时，返回None
+			ss[key] 读取key的value, 当key不存在时，则会报 KeyError错误
+
+			添加或更新key的value
+		  ss[key] = value
+			ss[‘age’] = 20
+
+			 删除： ss.pop(key)  返回 value
+							ss.popitem() 返回最后一个key-value, 返回格式：（key, value）
+
+			 清空： ss.clear()
+
+	  元组：
+				特性： 有序，不可修改(元素item)
+			  s = (1, 2, 3)
+				s[1]  = 10   错误
+
+				s = (9, 2, 3)   可以整体修改
+
+				将list - > tuple
+				s = tuple(list(‘123’))
+				s=  list(s)   将tuple - >list
+		集合：
+				s = set() ： 无序，不可重复
+				添加元素：
+						s.add(‘a’)
+						s.add(123)
+			   读取集合中所有内容：
+						for n in s:
+							   print(n)
+
+				删除元素： s.remove(内容)
+						s.remove(‘a’)
+
+    函数：
+         1）定义函数
+				def  函数名(参数列表)：
+						  语句
+							return 结果
+			 如函数没有一个return ,则返回是None
+
+			  def add(x, y):
+						s = x + y
+						return s
+
+			调用函数： add(10, 20)  返回 30
+
+			关键参数传值：
+						add(y=10, x=20)
+
+			参数默认值
+			def  multiple(x, base=4):
+						if x % base == 0:
+                    return True
+						print(‘hahahaha’)
+						return False
+
+		调用时：  multiple(13)  返回False
+					       multiple(15, 5) 返回True
+
+		可变长度的参数
+			*args: 表示可收一个元组的内容
+			**kwargs:   表示可接收一个字典的内容
+
+		def sum_(*args):
+				 s = 0
+				 for n in args:
+						 s += n
+				 return s
+ 调用： 	sum_(10, 20, 30 , 40, 50)
+					sum_(1, 5, 8)
+
+     **kwargs :  一般情况下，做函数的可选项
+		def openTxt(path, **kwargs):
+			  mode = kwargs.get(‘mode’)
+           if not mode:
+					mode = ‘rt’    # 默认值
+			  charset = kwargs.get(‘charset’)
+			  if not charset:
+					charset= ‘utf-8’
+			  with open(path, mode, encoding=charset) as f:
+					c =  f.read()
+					print(c)
+ 调用： openTxt(r’c:\aa.txt’)
+				  openTxt(r’c:\aa.txt’, charset=‘gbk’)
+                openTxt(r’c:\aa.txt’,charset=‘gbk’,mode=‘w+’)
+
+
+ 异常处理：
+		try:
+			可能出现的异常
+		except 异常类 as 类对象:
+			处理异常的语句
+		finally:
+			 最终处理的语句
+
+  打开文件时可能会出现异常， IOError
+		try:
+			f = open(r’c:\aa.txt’)  # 如果aa.txt文件不存在
+		except:
+			print(‘文件不存在’)
+		finally:
+			print(‘文件操作结束’)
+
+	 def  chgInt(x):  # 将字符的x参数值转成int类型
+			try:
+				return int(x)
+		    except:
+				print(‘{0}  不能转成 int’.format(x))
+
+		    return 0
+
+		‘’.replace()
+		s.find()
+		‘saa’.split()
+
+		max()
+		open()
+
+调用：  chgInt(‘a’) == None  # 打印 ‘a’ 不能转成int
+			chgInt(’10’) == 10  # 返回 10
+
+
+
+
+
+
+
+Sort 排序

@@ -1,0 +1,67 @@
+1.   如何实现类对象的 等值关系运算操作， 请写出一个简单地demo
+    示例： Num(20)  == 30
+
+	class Num:
+		def __init__(self, n):
+			self.n = n
+
+		def __eq__(self,other):
+			return self.n == other
+
+
+
+2. 写一个简地demo, 实现@property装饰的私有属性
+	class Stu:
+		def __init__(self, age):
+			self.__age = age
+
+		@property
+		def age(self):
+			return self.__age
+
+		@age.setter
+		def age(self, age):
+			self.__age = age
+
+—————————————
+	s = Stu(20)
+	s.age = 30
+
+
+3. 说明一下发送邮件的步骤， 并写出简单的demo
+	1. 创建smtp服务器连接：    smtp = smtplib.SMTP(),  smtp=  smtplib.SMTP_SSL()
+	2. 登录smtp服务器,   smtp.login(sener, pwd)
+	3. 发送邮件，  smtp.sendmail(sender, receivers, message.as_string())
+
+
+	import smtplib
+	from email.mime.text import MIMEText
+	from email.header import Header
+
+	 class Mail:
+		  def __init__(self, receivers , content, title):
+				self.receivers = receivers
+				self.content = content
+				self.title = title
+
+		  def send(self):
+				sender = ‘xx’
+				pwd = ‘ ss’
+				message = MIMEText(self.content)
+				msessage[‘Subject’] = self.title
+
+			    try:
+					smtp = smtplib.SMTP_SSL(‘smtp.qq.com’, 465)  # smtplib.SMPT_SSL_PORT
+					smtp.login(sender, pwd)
+					smtp.sendmail(sender , receivers , message.as_string())
+				except smtplib.SMTPException as e:
+					print(e)
+
+
+
+
+
+
+
+
+

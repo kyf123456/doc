@@ -1,0 +1,104 @@
+1. 回顾前一天知识点
+
+	1. generator 生成器
+		a .  生成式方式
+		   g = (x for x in range(10) )
+		b.  函数方式
+			def gg():
+				d = yield  20
+				s = yield  21
+				y = yield  22
+
+		获取生成器的数值（item项）：
+			a.  next(g) 或 g. send()
+			b.  for 循环
+
+			next()  可能会报   StopIteration 异常
+
+    2.  Iterator迭代器
+			  1） 可被迭代的对象 Iterable
+					list, tuple, set, dict, str  —》for 循环都可以迭代
+					generator 生成器 也是可以被迭代的
+
+			 2）iter(iterable)  －》 将可被迭代的对象转成了迭代器
+				  注： Iterator也是一个Iterable（可被迭代的对象）
+
+
+			3） 如何验证一个对象是否是可迭代的Iterable对象				isinstance(obj, collections.Iterable)
+				isinstance(obj, collections.Iterator)
+
+			4) 获取迭代器中的数值(item项)：
+					next(iterator)
+					for 循环
+
+
+	3. 断点方式
+		1） pycharm工具
+			运行时： 先断点， 调试模式运行 (Shift + F9)			下一步： F8
+			进一入函数： F7
+			返回(跳出)函数： Shift + F8
+			直接执行到下一个断点： F9
+
+		2) pdb
+
+			在需要调用的语句上方： pdb.set_trace()
+
+			当执行到pdb.set_trace()语句，会进入到pdb方式环境中：
+				a 显示函数的函数
+				l/ll 显示函数的代码
+				b  行号 ：设置断点
+				cl  断点编号 ， 取消断点
+				c  执行到下一个断点
+				n  执行下一行语句
+				s  进入当前行语句的函数中
+				help 显示所有命令
+
+	4. 日志logging模块
+
+		root = 	logging.getLogger()
+		root.setLevel(logging.DEBUG)
+
+		logging.basicConfig(format=, datefmt=, filename= )
+
+		日志格式：
+				%(asctime)s 日期时间
+				%(name)s   日志名称， 默认为root
+				%(levelname)s  等级名
+				%(module)s		模块名
+				%(message)s	日志消息
+				%(funcName)s  函数名
+
+		logging.debug(‘调试消息’)
+		logging.info(‘普通消息’)
+
+	5.  单元测试 unittest
+		单元测试类，必须继承 unittest.TestCase类
+		在测试类中，方法名必须以  test_开头
+		在方法中，可以使用self.assertEquals() 断言
+
+
+		技巧：  在要测试的函数上， 使用快捷键： Ctrl+Shift + T 快速创建测试类及函数。
+
+
+   6. 文档测试 doctest
+		当前的运行代码块或语句中，包含 多行注释，而且注释的格式如下：
+		‘’’
+		>>> a, y = 20, 30
+		>>> a+y
+		60
+		‘’’
+
+	  在语句中执行：
+			doctest.testmod()  来测试注释中的测试语句
+
+   7. 正则表达式  re
+		re.match(‘正则表达式的字符串’， ‘要匹配的字符串’)，  如果没有匹配成功，则返回None
+
+		正则表达式的字符串:
+			‘^[1-9][0-9]{5,10}$’   匹配 QQ号
+			‘^[1-9]\d{5, 10}$’
+
+
+
+
+

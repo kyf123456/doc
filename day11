@@ -1,0 +1,61 @@
+一、 回顾上周内容
+	1. 函数：  封装多个语句，后期可重复地调用，以及扩展功能 ，便于维护
+		函数参数：  关键参数传值，  调用时使用“参数名=参数值”
+		参数默认值： 在声明(定义) 函数时，形参名= 默认值
+		不定长参数： 在声明函数时， 使用*args(元组)和**kwargs（字典）
+	 2. 偏函数：  functools.partial(现有函数名， 关键参数名=参数值)
+						创建现有函数的分身（另一个名字）
+	 3.  回调函数， 装饰函数
+		  回调函数： 在调用其它函数时，在参数列表中提供一个函数变量名，在，以备这个函数在完成功能时，通过提供的函数名回传数据。
+		本质上，通过回调函数来接收被调用函数回传的数据。
+		装饰函数:   扩展现有函数的功能， 在修改现有函数的前提下。
+	使用场景： 验证数据， 监控(测)运行状态以及事务处理。
+		装饰函数定义：
+					def valid(fn):
+						def wrapper(*args,**kwargs):
+								print(‘前扩展功能’)
+	    						result = fn(*args, **kwargs)
+								print(‘后扩展功能’)
+								return result					    return wrapper
+		它的使用： 在现有函数的前一行，使用@valid
+		4. 递归函数：  函数调用它自己
+			必考虑的三件事：
+1.  递归临界条件， 退出条件
+ 2.  两次递归的关系，做运算
+ 3.  递归返回尽量不使用表达式， 返回函数本身，考虑每次递归计算结果的存储-尾递归
+		5. os文件操作
+				os.rmdir()  删除目录
+				os.mkdir()  创建目录
+				os.makedirs() 创建多级子目录
+				os.remove() 删除文件
+				os.listdir(path) 列出目录中的所有文件
+
+				os.path.join(dir, filename)
+				dir, filename = os.path.split(path)
+				name, ext= os.path.splitext(filename)
+				os.path.isfile(path)
+				os.path.isdir(path)
+				os.path.exists(path) 判断文件是否存在
+
+				os.stat(path)  返回文件的result_stat对象，包含文件的大小和相关的时间
+		6. time操作
+				time.time()  获取时间戳， 单位秒
+				time.localtime([seconds])  获取当前时间或指定时间戳的时间元组对象
+				time.strftime(‘格式化字符串’，  时间元组对象)  将时间元组转成字符串（按格式）
+				time.strptime(‘日期时间’， ‘格式化’)
+				time.mktime(时间元组对象)  转成时间戳
+       7.  异常处理
+				try:
+					可能会出现异常的语句
+				except ［异常类名 as 对象名］：
+					处理异常的语句
+				finally:
+				不管有没有异常，都会执行的语句( 释放资源)
+
+	   8. 数据结构
+			stack  栈（先进后出）， list数据结构 实现：  append() 压栈， pop() 出栈
+			collections.deque  双队列（左右都可操作的队列： 默认是先进先出）,
+			 append() 右入列， appendleft() 左入列
+			 pop() 右出列，  popleft()  左出列
+
+二、 面向对象编程

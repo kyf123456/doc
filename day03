@@ -1,0 +1,175 @@
+
+  1.  数值型的相关函数
+
+		1)  导入math 模块 （数学模块）
+			 import math   # 导入模块
+			 ———
+			 from math import *   # 从math模块导入所有函数
+			 from math import sqrt, pow, fabs
+
+		2）使用math  模块
+			 import math
+			 math.sqrt(16)     — 4
+
+  2. 字符型的相关函数
+        重复字符
+			‘hello’*3    :  hellohellohello
+
+		格式化字符
+			1)  %格式化
+				%s :  str
+				%d :  int
+				%f :  float
+			    %.nf : float, 指定小数点， n小数点保留位数
+
+			name = ‘disen’
+			print(“hi, ” + name)  ,  print(“hi ,”, name,” what about you?”)
+			print(“hi, %s” % name )
+			age = 20
+			print(“name: %s \nage: %d” % (name,  age) ) \n是换行
+
+		  2) format()函数   ，  格式化函数
+		  	字符串使用 { 0 }, { 1 }, { 2 } ….{ n } 来占位，使用format()从左到右依次 来填充 占位的内容
+			print(‘name: {0}\nage: {1} ’.format(name, age))
+			x,y=3.0, 4.0
+			print(‘x:{0}, y:{1}’.format(x,y))
+			print(‘x: {0}, y:{1}, x*y: {2}, sqrt(x^2+y^2): {3}’.format(x,y,x*y, math.sqrt(math.pow(x,2)+math.pow(y,2))))  pow是平方，sqrt是开方
+
+		 3）字符分隔函数 split()
+			 s= ’10,20,30’.split(‘,’)  = >  [’10’, ’20’, ’30’] ->s
+			 x,y,z = s
+			 x = s[0]
+             y = s[1]
+			 z = s[2]
+
+			’10|20|30’.split(‘|’)
+            '20,30|2.0|3.2'  分隔
+
+
+
+		4） 字符串也属于字符列表
+				s = ‘disen’   要求： 修改第3个字符 s 为 w
+				s = list(s)  将字符串转成列表
+				s[2] = ‘w’
+				s = ‘’.join(s)   使用空格来连接(分隔) 列表中每个元素， 最后生成一个字符串
+              s[:2]  从第一个位置（0）开始， 到第3个字符结束，但是不包含第3个字符
+				s[3:5]  从4上位置开始，取到第5个字符结束， [3, 5)
+				s[-2:]  取最后两2个字符
+				s[::-1]  反转字符串， －1 是步长(默认为 1 )
+				s[:4:2]  从0位置开始取到第3个字符（包含），但步长为2，即取一个字符之后，跨2个字符继续取
+					      结果 ： ds
+
+		5) 查找字符串 find()函数
+
+		  s = ‘北京千锋西安千锋’
+		  s.find(‘千锋’)   查出第一次出现的位置（从左到右）
+		  s.count(‘千锋’) 统计指定的字符出现的次数
+
+		 s = ‘aDHBfaDfffd’
+		 s.find(‘9’)  返回 －1 ,未找到
+
+        s.find(‘f’, 8) 第二个参数表示从哪个位置开始查找
+		 s.find(‘f’, 8 , 10) 第三个参数表示查找结束位置，且不包含结束位置的内容
+
+	    s = ‘hello,world!’
+		s.find(‘o’)
+		s.find(‘o’, 5, 7)
+		s.find(‘w’, 5, 7)
+
+		6) replace(oldstr, newstr) 替换函数, 从字符串查找出oldstr，并替换成newstr
+
+		7)  字符的翻译
+				 str.maketrans(instr, outstr) , 将instr 和 oustr两个字符串中的每个字符－－对应
+				  t = str.maketrans(‘abc’, ‘123’) , a-1, b-2, c-3
+
+				 ‘about you,come in here!’.translate(t),  结果是将ab转成12, come的c转成3
+		练习 ：  通过键盘输90*10,100/15,25**2+12**2,print,type..[,work]
+						分解 ， 以“，”分隔， 再找可以计算的分组： *, /,**,+,
+					    如果是单词，是统计单的数量，判断单词是否有重复。
+						最后输出计算的结果，和单词的统计数（单词数量 ，重复的单词数量）
+
+					1) 输入：90*100,100/15,2**2+4**2
+					2) 输入： print,type,dir,input,round,ceil,floor,translate,replace， 分隔显示出来，
+							      并且使用***来分开，如 print***type***dir***…
+
+
+  3. if 分支
+		 1)  if 结构
+			  if 条件或逻辑表达式:
+					print(‘条件成立’)
+             elif 条件或逻辑表达式:
+                  print(‘第二个条件成立’)
+			  [elif  xx:
+                  print()…]
+			  else:
+					print(‘前二个条件都不成立’)
+
+		    age = input(“”)
+			age = int(age)
+			if age < 0:
+              print(“age 无效”)
+           elif age < 3:                     [0,3)
+               print(‘小朋友，你好!’)
+		    elif age < 6:                     [3,6)
+				print(‘good morning!’)
+			else:
+				print(‘你是否有兴趣来学习Python’)
+
+
+		 2）特殊的符号或变量作为条件表达式
+			  None    : 什么都不是  (False)，  ‘’：  空字符串 (False)
+			  1：  True, 0 : False
+
+
+		3) in 和 is 在if 条件中的使用
+			names = ‘disen,tome,cindy,mandy’.split(“,”)
+		    name = input(“your name:”)
+			if name not in names:
+              print(‘{0} 不存在’ .format(name) )
+			else:
+				print(‘{0} 已查找到’.format(name))
+
+
+			＃ 练习： 模拟用户登录操作，接收用户名和口令，判断用户名是否为 ‘disen’， 口令是否为’admin’.
+						   登录失败或成功都有相应的提示。 （is 或 is not 或==）
+
+         				 is 和 == 区别:
+							is 用于比较两个引用的内存首地址是否一样 ， ‘disen’ is ‘disen’ :  True
+							input() 输入内容创建新的内存区域来存储 s=input(),    ‘disen’ is s:  False
+						    == 两个引用的内容比较
+
+			嵌套if语句：
+				 if  a<10:   #  a == 9  , 3
+					 if a<5:
+						 print(‘1’)
+					 elif  a<8:
+						 print(‘2’)
+				     else:
+						 print(‘3’)
+			    else:
+					  print(‘D’)
+
+
+  4. 字符集与bytes字节类型
+
+		 UTF－8编码：   兼容ASCII, 英文字母占1个字节， 汉字占3个字节
+
+		将字符串转成 字节类型 （utf-8编码）：
+			 bytes(‘您好，狄哥’ , encoding=‘utf-8’)
+
+		将字节转成 字符串
+			str(b’\xe7\x8b\x84’ , encoding=‘utf-8’)
+
+
+  作业：
+		1）输入电话号码和邮件， 验证是否合法
+			电话号码：不能为空， 长度为11位， 必须都是数字
+			邮件： 不能为空， 610039018@qq.com , 常用的域名(.net,  .org, .com,  .cn)
+
+	    2)  随机产生两个数，并生成+或-或* 或/等表达式，提示用户输入结果，最后判断结果是否正确，
+          最后输入的计算结果。 random.random()*100 == [0, 100)
+
+
+
+
+

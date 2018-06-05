@@ -1,0 +1,46 @@
+1.  现有fruits数据库中，存在 vip表，表中包含id, name, phone 三个字段，其中name字段是varchar类型，长度为20。
+    要求： 修改phone 字段的数据长度为11， 并添加一个 折扣的新列 rebate,  可以存放的2位小数，如 0.85 或 0.9
+	 use fruits
+	 alter table vip modify phone varchar(11);
+
+	 alter table vip add rebate float(3,2);
+
+
+2.  查看所有李姓 的 vip
+	 提示： name 字段是vip用户名
+	select * from vip
+	where name like ‘李%’;
+
+3. 现有如下三张表
+		pesrson 人员表 (id 人员编号, name 姓名 )
+		sales 销售表 (pid 人员编号， sd 销售日期 ，  sm 销售金额)
+		cost 成本表 (pid 人员编号 ， cd 开销日期 ,   cm 开销金额 )
+
+	要求： 显示每个人的销售总额， 开销总额， 利润率
+	提示： 利润率 = 销售总额-开销总额 / 销售总额
+
+	select p.name , sum(s.sm) sm , sum(c.cm) cm, (sum(s.sm)-sum(c.cm))/sum(s.sm) as profit
+	from person p
+    join sales s on p.id=s.pid
+    join cost c on p.id=c.pid
+    group by p.name
+
+
+4. 在第3题基础之上，统计每人每天的销售总额、开销总额
+	提示： 销售日期是 YYYY-MM-DD格式
+
+ select a.name,a.sd,a.sm,b.cd, b.cm
+ from
+ ( select p.id, p.name ,s.sd, sum(s.sm) sm
+	from person p
+    join sales s on p.id=s.pid
+    group by p.id, p.name,s.sd) a
+   join
+	( select p.id, p.name ,c.cd, sum(c.cm) cm
+	  from person p
+      join cost c on p.id=c.pid
+      group by p.id,p.name,c.cd
+   ) b
+	on a.id = b.id
+
+

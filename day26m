@@ -1,0 +1,27 @@
+1.   统计root用户下的进程数量
+	ps -ef | grep root -c
+
+2.  查看tcp的22端口的进程信息（包含端口号、进程ID, 进程名等)
+	netstat -antp | grep 22
+
+3.  编写shell脚本的要求是什么
+	1) 脚本文件的扩展名 .sh
+	2) 脚本内容的第一行： #!/bin/bash
+	3) 脚本需要执行权限： chmod +x xx.sh
+	4) 执行脚本： ./xx.sh  或 /home/cici/shs/xx.sh
+
+4.  以shell脚本参数传值方式，编写shell脚本 ，查询给出的每一个用户的口令信息
+     口令信息文件： /etc/shadow,
+     部分文件内容： disen:$ajadjbcdd/f0:17601:0:99999:7:::
+	 ./qu.sh disen cici
+	 disen passwd:   sksk^akjakjfka/f
+	 cici passwd:  djdjkqkqjd/af
+—————————————————————————————
+	#!/bin/bash
+	for name in $*
+    do
+		 pwdstr=$( sudo cat /etc/shadow | grep $name | cut -d: -f2 )
+		 echo “$name passwd: $pwdstr”
+	done
+
+

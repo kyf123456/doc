@@ -1,0 +1,55 @@
+1.  写出常用的HTML的标签，至少8个
+   <h1>
+   <a>
+   <p>
+   <span>
+   <div>
+   <img>
+   <audio>
+   <video>
+   <table>
+  <form>
+  <input>
+  <label>
+  <strong>
+  <em>
+  <ul>
+  <ol>
+
+
+2.  给定一张图片 a.jpg ，如何显示出来，且高度和宽度分别是200,240
+
+   <img src=“a.jpg” width=“240” height=“200” />
+
+3. 写出一个显示用户信息的表格，表头有：序号、姓名、年龄和电话
+ <table width=“400px” border=“1” cellspacing=“0” cellpadding=“0”>
+     <thead>
+			<th>序号</th>
+			<th>姓名</th>
+			<th>年龄</th>
+		   <th>电话</th>
+      </thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>disen</td>
+				<td>20</td>
+				<td>17791692095</td>
+			</tr>
+		</tbody>
+</table>
+
+
+4. 写出一个注册页面，收集用户的姓名、电话、邮箱和口令
+<form method=“get” action=“#”>
+ 	<label>姓名</label>
+	<input type=“text” name=“username” /> <br/>
+	<label>电话</label>
+	<input type=“number” name=“phone” /><br/>
+	<label>邮箱</label>
+	<input type=“email” name=“email” /><br/>
+	<label>口令</label>
+	<input type=“password” name=“passwd” /><br/>
+   <button>提交</button>
+</form>
+

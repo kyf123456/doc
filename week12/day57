@@ -1,0 +1,210 @@
+一、 回顾昨天知识点
+	nginx 配置文件：
+		/etc/nginx/nginx.conf
+		/etc/nginx/conf.d/default.conf
+	主要配置内容：
+			http {
+					server {
+						 listen 80;
+						 server_name 127.0.0.1;
+						 location /static {
+							  alias /home/apple/www/xxx;
+						 }
+
+						 location / {
+							include uwsgi_params;
+							uwsgi_pass 127.0.0.1:8000; # 对应是项目的uwsgi.ini文件中的socket=127.0.0.1:8000
+						}
+					}
+			}
+      Flask  技术点 (pip install flask)
+			1. 创建 Flask对象
+				from flask import Flask
+
+				app = Flask(__name__)
+
+			2. 使用app配置web请求的路由和请求处理函数
+			@app.route(‘/’)
+		    def index():
+					return ‘hi, index page’
+
+			3. 启动flask的web服务
+				app.run()
+
+			4. 使用flask-script 第三方扩展模块，可以使用Shell命令启动Flask的WEB服务，并且可以指定命令参数：
+			-r  reload
+			-d debug
+			-h ‘192.168.0.11’
+			-p 9000
+
+		     创建 manager， 并通过manager来启动WEB服务：
+			  from flask_script import Manager
+			  …
+			  manager = Manager(app)
+
+			  manager.run()
+
+			  ---命令行---
+			python xx.py runserver  -r -d
+
+
+		5.  flask-blueprint 蓝图规划
+			1） 按mvc/mvt风格来拆分模块
+
+				xxxApp: xxxApp模块包
+					__init__.py:   创建app,配置app，向app注册blueprint
+					views.py :   创建blueprint对象，并使用blueprint配置路由
+					models.py : 定义与表相关的数据模型
+					static :  所有静态资源文件
+					templates ：  HTML模板文件
+			 manage.py:
+					导入app, views.blueprint
+					创建manage ,并启动
+
+			2）创建Blueprint对象
+			from flask import Blueprint
+			blue = Blueprint(‘main’, __name__)
+
+			3) 使用blue
+			@blue.route(‘/home’, methods=(‘GET’,’POST’))
+			def home():
+				return ‘home’
+
+			4) 默认methods请求方法
+				GET, OPTIONS, HEAD
+
+	6) request请求对象
+			from flask import request
+
+			request.method  请求方法
+			request.args  从GET请求路径中获取查询参数
+			request.form  从POST请求中获取表单参数
+
+			request.cookies  从请求中获取所有cookie信息
+			request.files  从POST请求中获取File字段的信息
+
+			request.remote_addr 获取客户端请求的ip地址
+			request.base_url  获取请求路径， 但不包含请求参数
+			request.host_url  获取主机地址和端口号
+			request.url   获取完整 的请求路径
+
+	7. 路由中的参数
+		@blue.route(‘/blob/<converter:name>’)
+		def blob(name):
+			….
+
+		常用的converter 转换器：
+			string
+			int
+			float
+			path
+			uuid
+			any(add, del, update)
+
+
+二、 Response、Cookie、Session
+
+	练习： 1. 提供接口删除某一个cookie
+			   2. 提供接口清空所有的cookie
+
+	1. url反向解析
+		在 view 中:
+			url_for(‘蓝图名.函数名’, **values)
+
+			------
+			blue = Blueprint(‘cart’, __name__)
+			@blue.route(‘/<id>/’)
+			def index(id):
+					….
+
+			---------
+			url_for(‘cart.index’, id=1001)  =>  返回  /1001/
+
+	  在 template的html文件中：
+		<a href=“ {{ url_for(‘cart.index’)  }}”
+
+  flask-session: 文档
+	https://pythonhosted.org/Flask-Session/
+
+	1) pip install flask-session redis
+	2) __init__.py 配置session
+		app.config[‘SESSION_TYPE’] = ‘redis’
+
+		redis = redis.Redis(host=’10.35.163.38’,
+									   port=6379,
+										db=1,
+										password=‘xxxx’,
+										charset=‘utf-8’)
+
+		app.config[‘SESSION_REDIS’] = redis
+
+三、Template模板语法
+  与 django模板语法相似， 不同是在jinja2模板中可以调用函数，且可以传参。
+
+	1. 变量
+      {{ 变量名 }}   ＃  如果变量是对象类型，
+						       可以用：对象名.属性， 对象名.方法名(参数)
+
+	 {{ 变量名|过滤方法名|xxx|xxx }}
+
+	内置一些变量或对象： request, session,  g
+   2.  语句
+		{% for xx in xxs  %}
+
+		{% endfor %}
+
+		{% if xxx %}
+		{% elif yyy %}
+		{% else %}
+		{% endif %}
+
+	 “挖块”
+	    {% block  xxx %}  {% endblock %}
+
+		“填块	“
+		｛％ extends ‘xxx.html’  %}
+		  可以使用 {{ super() }} 继承原有块的内容
+
+		‘引入’
+		 ｛％ include  ‘yyy.html’ %}
+
+	3. 宏函数
+			# 定义
+		   {%  macro hello(name) %}
+				hi, {{ name }}
+			{% endmacro %}
+
+			{{  hello(‘disen’) }}
+
+		  如， 在其它文件中使用 a.html中定义的hello宏函数
+		  {% from ‘a.html’ import  hello %}
+			{{  hello(‘disen’) }}
+
+四、ORM模型( flask-sqlalchemy )
+
+	   pip install flask-sqlalchemy
+
+		1) 创建models.py文件
+			db = SQLAlchemy(app)
+
+			class User(db.Model):
+				id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+				name = db.Column(db.String, unique=True)
+
+		2) 在 __init__.py 中 配置数据库连接
+	app.config['SQLALCHEMY_DATABASE_URI']
+									= 'sqlite:///users.db'
+	app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+		3)  在 python console 交互环境中：
+				from mainapp.models import *
+
+				db.create_all()  # 创建db模型中所有表
+
+				db.session.add(User(name=‘disen’))
+				db.session.commit()
+
+				db.session.query(User).all()
+
+
+

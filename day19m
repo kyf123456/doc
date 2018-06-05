@@ -1,0 +1,52 @@
+1.  变量名前添加一个下划线和两个下划线的区别
+		_变量名， 表示模块内使用， 以from xx import * 导入模块时，不会导入模块的_变量或_函数
+						如果在类对象中使用，表示一个普通的变量名
+
+		__变量名， 表示类对象的私有变量名
+
+
+2.  给出以下字符，通过正则表达式查出所有数字，并计算它们的和
+   s1 = ‘a10b20c12dell98call76’
+
+	import re
+	from functools  import reduce
+	ns = re.split(‘[a-z]+’, s1)  # list
+	ns = list(map(lambda x: int(x),  ns))  # 返回list
+	sum_ = reduce(lambda x, y : x+y, ns)
+
+
+3. 写出pdb调试时的常用命令
+
+	h 帮助
+	a 查看函数的参数
+	p 变量名
+	b  lineno  断点
+	cl  断点编号
+	n  下一步
+	c   下一个断点
+	ll  查看当前函数的代码
+	s 进入函数
+	r 返回函数
+
+4.  使用生成器generator函数，实现求阶乘的功能
+	import types
+	def jc_(n, r):
+		if n == 1:
+			yield r
+		else:
+			yield jc_(n-1, n*r)
+
+	def jc(n):
+		try:
+			n = jc_(n, 1)
+			while isinstance(n, types.GeneratorType):
+				n = next(n)
+		except:
+			print(‘’)
+
+		return n
+
+
+
+
+

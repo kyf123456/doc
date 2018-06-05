@@ -1,0 +1,29 @@
+1. 以列表方式 显示 /home/tom目录下所有文件信息，按时间反序排列
+ pwd
+ cd /home/tom
+ ls -trl
+ ls  /home/tom -trl
+ tree /home/tom
+
+2.  在tom目录下创建 mysql/bin目录（mysql和bin都不存在）
+   cd /home/tom
+	mkdir -pv mysql/bin
+	mkdir -pv /home/tom/mysql/bin
+
+3. 将 tom目录下所有的.py文件 移动到 mysql/bin目录中
+	pwd :  /home/tom
+	mv *.py  mysql/bin/
+
+4. 为mysql/bin目录创建一个连接，连接文件放在 /usr/local/bin 目录
+	pwd: /home/tom
+	ln -s mysql/bin  /usr/local/bin/_bin_
+
+5.  将tom目录下所有.txt文件，压入到 ts.tar.gz压缩包中
+	pwd: /home/tom
+	tar -czvf  ts.tar.gz  *.txt
+
+6.  查找mysql/bin目录下所有 py文件, 并同时对已查找到的文件执行python命令
+	pwd: /home/tom
+	find mysql/bin  -name ‘*.py’ -exec python3 {} \;
+
+

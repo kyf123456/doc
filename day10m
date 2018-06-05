@@ -1,0 +1,41 @@
+第10天默写题：
+
+  1. 写出 dict、set、list、tuple之间的区别，以及它们各自常用的函数。
+    dict 字典，{key:value} key-value结构，key是不可重复，且无序
+	 set 集合， { },  不可重复，且无序
+    list和tuple都是有序的，可重复，但是tuple元素不可修改。
+	tuple中可以添加list，对于list类型的元素可以修改其内部的值
+
+	dict：  get(key),   keys() ， items()  ,  values(),  pop(key),  popitem() 弹出(key,value) 的元组， clear(),
+			   update({key:value })
+
+	set:  add(item),  remove(item), pop(), clear(), update({item})
+
+	list:  append(item), remove(item), insert(index,item), clear(), sort(), reverse() , count() , extend(list)
+			copy()
+
+	tuple:  count(), index(item)
+
+  2. 什么是装饰函数，简单地定义一个装饰函数
+      装饰函数： 扩展现有函数的功能（不修改原函数的内容前提下）。
+	  实际上拦截正在执行的函数，从而转入到了装饰函数中。
+
+	 def  decorate(fn):
+			def wrapper(*args, **kwargs):
+					print(‘—调用函数前—’)
+					result = fn(*args, **kwargs)
+					print(‘—调用函数后—’)
+					return result
+		   return wrapper
+
+  3. 写出你对回调函数的理解
+
+		回调函数实质上接收被调用函数回传的数据。
+		Python将函数作为变量名，在调用某一函数时，将回调函数作为函数名变量传入到函数中，
+		在被调函数中，某一条件成立或功能执行完成，调用回调函数名，并传入相关的数据，
+		实现数据回传（调用方）。
+
+
+
+
+

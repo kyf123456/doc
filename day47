@@ -1,0 +1,115 @@
+一 、回顾昨天知识点
+1.  url传值(views请求处理函数接收参数)
+
+	path(‘find/<str:name>’,  views.find)
+  -> http://127.0.0.1:8000/main/find/disen
+	——————————————————————
+	def find(req, name):
+		print(‘name->’, name)
+
+	path(‘find/<str:name>/<int:id>’,  views.findByNameId)
+	——————————————————————
+	def findByNameId(req, name, id):
+		print(‘name,id->’, name, id)
+
+
+2. url传值是匹配正则表达式
+	re_path(r’^find/(?P<name>\w+)/(?P<id>\d+)$’,  views.findByNameId,  name=‘findNameId’)
+	re_path(r’^find/(?P<year>\d{4})$’, views.findByYear)
+	——————————————————————
+	def findByYear(req, year):
+		…
+
+	django1.X:    from django. conf.urls import url
+  	——————————————————————
+	url(r’^find/(?P<year>\d{4})’ ,  views.findByYear, name=‘findYear’)
+
+
+3. url反向解析
+	html:   {% url ‘namespace:name’  %}
+	python-views:
+			reverse(‘namespace:name’)
+
+	前提： 1）在include()函数中指定 namespace 命名空间 －－总路由项目的urls.py
+			   2）在path函数中， 指定 name 属性   －－模块的urls.py
+
+	反向解析时传入参数的方式：
+			1） 位置传值
+				 ｛％ url ‘findYear’  2019 ％｝
+				   {％ url ‘findNameId’  ‘disen’ 1110 ％｝
+
+					reverse(‘findYear’, args=(2019, ))
+					reverse(‘findNameId’, args=(‘disen’, 1110))
+
+		 	2)  关键参数传值
+				｛％ url ‘findYear’  year=2019 ％｝
+				  {％ url ‘findNameId’  name=‘disen’  id=1110 ％｝
+
+					reverse(‘findYear’, kwargs={‘year’:2019})
+					reverse(‘findNameId’, kwargs={‘name’:‘disen’, ‘id’:1110})
+
+
+	优点： 通过URL反向解析，可以动态地获取实际的url请求路径。
+				如果在以后的开发中，因为业务的关系，修改了url请求路径，
+				反向解析是不受影响， 增强了业务的可维护性和扩展性。
+
+
+4.  HttpRequest请求对象的属性
+		path:   当前请求的路径，相对于 / 项目的根路径， 如 /main/find
+		method:  请求的方式（方法）， 一般为GET或POST
+		GET：  封装get请求的参数， QueryDict 字典类型
+		POST:  封装post请求的参数， QueryDict 字典类型
+		META： 封装请求的客户端环境的元信息，包含客户端的环境变量、IP、端口、请求头等相关信息
+		COOKIES： 封装请求中的cookie信息
+		session:  封装会话对象的信息， session是Session对象类型，数据存在服务器的数据库中。
+
+5.  cookie的应用
+		基本概念： 1）cookie客户端存储数据时使用的技术
+						 2）cookie存在有效时间， max-age 有效的时长(单位：秒)，  expire 指定过期时间(datetime)
+						 3)  cookie存储是针对服务器域名(domain=’127.0.0.1’)和路径(path = ‘/’), 即cookie是不能跨域
+
+		添加cookie:
+				HttpResponse.set_cookie(key, value, max_age=120)
+				指定过期时间 expire = datetime.strptime('2018-05-17 21:59:59', '%Y-%m-%d %H:%M:%S')
+
+		读取cookie:
+				request.COOKIES.get(key)
+
+		删除cookies:
+				HttpResonse.delete_cookie(key)
+
+
+6. session的应用
+		基本概念：1）session是服务器存储数据时使用的技术
+                      2）当第一次客户端请求服务器时，都会创建session对象，
+							 而且session在关闭客户端之前都会存在
+						 3） session依赖cookie, 当session创建时，在cookie中会存在一个sessionid
+						 4） session的数据存在数据库中，cookie的sessionid对应的是数据库
+								django_session表的session_key的字段
+
+		session的添加
+			request.session[‘key’] = value
+		session的读取
+			 request.session.get(key)
+			 request.session[key]
+
+		session删除：
+				request.session.flush()  # 清除cookie和session,数据库会被删除
+				request.session.clear()  # 清除所有的会话session
+
+
+7. 静态资源
+	1）在项目的根目录下创建文件目录 static, 并在static目录下创建js, images, css等相关的子目录
+	2）在settings.py文件中的最后位置，添加：
+			STATICFILES_DIRS = [
+					os.path.join(BASE_DIR, ‘static’),
+			]
+	3) 在html模板文件中
+			使用 加载static静态资源的标签
+			{% load static %}
+
+			<link rel=“stylesheet” href=“{% static ‘css/my.css’ %}”>
+			<img src=“{% static ‘images/aa.jpg’ %}” >
+
+	4) 注意： DEBUG需要设置为开发模式(True)
+

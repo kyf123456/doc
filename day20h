@@ -1,0 +1,175 @@
+复习知识点：
+	1.  进制
+	  二进制： 0, 1
+	  八进制： 0~7
+	  十六进制： 0~9, a~f
+
+      非十进制 转成 十进制：
+		8421
+		0101 － > 5
+
+		0o67 - > 55
+			6×8**1 + 7*8**0
+
+		0xa9  - > 169
+			10*16**1 + 9
+
+	十进制 转成非十进制：
+
+		120  －>  1111000
+			64 + 32 + 16 + 8
+			2**6 + 2**5 + 2**4 +2**3
+			0111 1000
+		120   -> 0x78
+		001 111 000
+		120   ->0o170
+					64 + 56
+
+  2. 标识符
+		常量、变量、运算符
+
+		数据类型： str, int , float, bool, byte, list, tuple, set, dict
+
+		变量名： 以下划线、字母开头，可以包含数字，不能使用关键字 help(‘keywords’)
+
+		运算符：
+			算术 +, -, *, /, //, %、
+			关系 > , < , >=, <=, ==, !=,
+		   逻辑  and , or , not ，
+		   身份  is (地址), is not,   in, not in
+			复合运算： += , *= , /=, //=,  %=
+			赋值运算：  ＝，   x,y = 100, 20,  x = 200, 300
+
+3. 分支
+	if 关系或逻辑表达式:
+
+    elif  xx:
+	else:
+			xxxx
+
+	if  xx:
+		xxxx
+
+	if xx:
+		jjjj
+	else:
+		yyy
+
+
+4. 循环:
+		while 循环
+
+		for  x in iterable:
+			….
+
+5. 函数
+
+	内联函数： input, print(), int(‘0101’, 2), type(), bin(20), hex(20), oct(20), float(),
+					  max(), min(), sum(), sorted(), len(), str(), isinstance(), hasattr(obj, ‘属性名或方法名’)
+					  iter()， round(), abs()
+	math 模块
+			fabs(), ceil(), floor(), trunc(), sqrt(), pow(), log(), log2(), log10(), PI, e
+	random 模块：
+			random.random()  , random.randint(),  random.uniform()
+
+	time模块：
+		  time.time()  ,  time.localtime() , time.strftime(‘格式’，时间元组)，
+		  time.strptime(时间字符， 格式 ), time.sleep(seconds)
+
+	os 模块：
+		os.listdir()
+		os.remove()
+		os.rmdir()
+		os.mkdir()
+		os.makedirs()
+		os.path.isfile()
+		os.path.exists()
+		os.path.isdir()
+		os.path.join(dir, filename)
+		os.path.split()
+		os.path.splitext()
+
+	datetime 模块：
+		date
+		time
+		datetime: now(), today(), strftime(格式)，  strptime(‘日期时间字符串’ ， 格式)
+		   ％Y,  %m, %d  %H %M %S   %y  %p  %I  %x  %X
+		deltatime:  两个datetime 相差
+
+   文件操作：
+			f = open(path, mode, encoding, newline)
+				mode :  rt,  r+b, r+, a, a+, a+b, w, w+, w+b
+				b模式， encoding, newline 都不能有
+
+
+			f.read(), f.readline() , f.readlines()
+			f.write()
+			f.seek()  移动文件位置
+
+  csv:
+		  reader = 	csv.reader(f)
+		  for line in reader:
+
+			writer = csv.writer(f)
+			writer.writerow	()
+
+		  reader = csv.DictReader(f, fieldnames=[])
+
+
+		 writer = csv.DictWriter(f, fieldnames=[])
+		 writer.writerow({})
+
+ 自定义函数：
+		def 函数名(参数列表)
+
+		参数： 默认值， 不定长的参数： *args  （元组）,  **kwargs 关键参数列表 (字典)
+
+装饰函数：
+	@classmethod
+	@staticmethod
+	@abc.abstractmethod
+
+	自定义：
+
+		def log(fun):
+			  def wrapper(*args, **kwargs):
+					xxx
+					result = fun(*args,**kwargs)
+				   yyyy
+					return result
+			  return wrapper
+
+		@log
+		def add():
+             xxxx
+
+
+  类的定义：
+		class 类名(继承父类) ：
+				def __init__(self,参数)
+
+				def __del__(self):
+
+	   类名(参数）
+
+	  多态性： 继承， 重写
+
+	  在构造方法中， 通过super().__init__(参数) 调用父类的构造 方法
+							   父类名.__init__(self, 参数)
+
+	 所有的类，继承object类
+
+   正则表达式：
+
+	generator生成器，   (x for x in range(20))
+					在函数使用	yield n  语句，将函数变成了generator
+
+			 types.GeneratorType
+
+	Iterator 迭代器，   iter(iterable)
+	Iterable: list, tuple, set, dict, str
+
+	高阶函数：
+		map(lambda x: x+20, range(100))  返回 generator		filter(lambda x: x.isdigit(), [‘a’,’1’])  返回 generator
+
+		functools.reduce(lambda x,y : x+y, range(101))  返回结果

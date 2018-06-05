@@ -1,0 +1,66 @@
+回顾昨天知识点：
+   1.    HTML基本结构 -> xml
+     <!DOCTYPE html>
+     <html>
+     <head>
+            <meta charset=“utf-8”>
+            <title></title>
+     </head>
+     <body>
+ 		<h1>显示的内容</h1>
+     </body>
+
+   2.  常用的HTML标记
+	  h1~6   ：  从大到小的标题
+	  <strong>  加粗
+	  <em>
+	  特殊符号：    &nbsp;  &gt;  &lt;  &ge; &le;   <br/> <hr/>
+	 <pre> 显示原始内容
+	 <a href=“目标路径”>baidu</a>
+	<img src=“图片来源” width=“” height=“” title=“” alt=“”>
+	<p> 段落， 换行
+	<span> 一块或段内容， 不换行
+
+  3.  表格
+	<table>
+	<tr> 行
+	<td> <th>  列， <th> 一般作为列标题使用（加粗，居中）
+	<caption> 表的标题
+	表可以被分为三部分： thead , tbody , tfoot
+
+	<table>标记中可用的属性：
+		cellspacing  单元之间的空隙
+		cellpadding  单元中内容与它的边框的间隔
+		border  表的边框的大小
+
+     <table><tr><td> 都具有的属性：
+		width 宽度
+		height 高度
+		style ： 指定行内样式
+		bg:  背景
+		align ： 对齐方式
+     <td> 具有的属性：
+		rowspan : 跨行， 一般放在第一行的第一列或最后一列
+		colspan:  跨列
+
+
+	4.   表单
+		<form>  :  action 将数据提交的位置， method: get|post 请求action的方法
+		<input>  接收用户输入的信息
+				type ： 指定输入的类型，text|password|email|number|date|radio|checkbox|submit|reset|button
+				value:  初始给定value值
+				name:  指定表单字段名字
+				size: 指定输入框的宽度，按钮或checkbox|radio类型不适应
+				maxlength: 指定最大的长度
+				placeholder:  指定提示信息，如果value值不为空时，placeholder则不会显示
+
+		<select> 下拉列表, 常用的属性： name
+			<option> 列表项, 包含的属性： value
+
+			用法： <select name=“”> <option value=“1”>北京</option>
+
+		<textarea>  文本域，指定rows 行数， cols 列数
+
+		<button> 按钮，默认为提交按钮
+				type:  submit|reset|button
+			    可以在<button></button>之间插入图片

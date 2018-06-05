@@ -1,0 +1,35 @@
+from sys import argv
+script,first,second,third=argv
+print('the script is called:',script)
+print(argv[0])
+print(argv[1])
+print(argv[2])
+print(argv[3])
+
+
+from sys import argv
+script,user_name = argv
+prompt = '>'
+print("My name is %s, and you know I am the %s script." % (user_name, script))
+print(argv[0])
+print(argv[1])
+
+   >>> python try040.py 张三
+   >>> My name is 张三, and you know I am the try040.py script.
+        try040.py
+        张三
+
+因为try01.py本身就是第一个参数了，“张三”才是第二个参数。
+第二行的意思是告诉电脑，这两货script和user_name都是参数。
+然后要去命令行去运行“python try040.py 张三”（Terminal或DOS下都行），而不是直接运行，否则会报错。
+
+     通过程序1可见，argv作为一个变量，是list类型的。其含有两个元素（都是字符串），
+第一个元素是“test2.py”即所执行的python脚本的名字；第二个元素才是我们想要的“第一个”命令行参数。
+这个结论对于一般的python程序都是成立的，即argv[0]是脚本名，argv[1]是第一个命令行参数，
+argv[2]是第二个参数，等等。
+程序2中的 script, first = argv 其实是用了一个特殊的python语法，
+即将argv[0]赋值给script变量，同时将argv[1]赋值给first变量。
+注意这种用法当且仅当argv的长度为2时才成立；如果要接受第二个命令行参数，
+就必须写成：script, first, second = argv
+
+

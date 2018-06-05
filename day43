@@ -1,0 +1,100 @@
+一、 回顾昨天知识点
+   1.  数据迁移到MySQL
+
+		1) 项目环境安装 mysql连接库
+			pip install pymysql
+
+		2) 连接mysql服务器
+			a. 本地的mysql服务（用户名和口令）
+			b. 远程的mysql服务
+					用户名和口令必须有
+					忘记口令：
+							1） 修改mysql的配置文件
+								 ubuntu:  /etc/mysql/mysql.conf.d/mysqld.cnf
+								 mac:  /etc/my.cnf (开始没有，创建，参考mysqld.cnf)
+
+								在配置文件中插入一行：  skip-grant-tables
+							2) 重启服务
+									ubuntu:  sudo service mysql restart
+							3) 命令终端
+										mysql   进入mysql环境
+										use mysql     ＃ 打开mysql库
+										select user,host,authentication_string from user;
+										update user set authentication_string=password(‘root’)
+										where user=‘root’;
+
+										在部分的mysql版本中, 还需要运行以下命令：
+										alter user ‘root’@‘localhost’ identified by ‘root’;
+
+							4) 修改mysql配置文件，去除 skip-grant-tables 这一行
+							5) 重启mysql服务
+							6) 指定用户名和口令进入mysql
+								mysql -uroot -proot
+
+				放开数据库访问权限：
+						mysql>  use mysql
+						mysql>  update user set host=‘%’ where user=‘root’;
+						＃授权 任一客户端以root身份访问或操作任一库和表
+						mysql>  grant all privileges on *.* to ‘root’@‘%’ identified by ‘root’;   						mysql>  flush privileges;   # 刷新权限
+
+
+					修改mysql配置文件，将bind_address 修改为实际的ip地址（远程是可以 ping 通）
+					重启mysql服务，（注： 可能需要关闭防火墙 sudo service ufw stop）
+
+
+
+		3)  配置settings.py文件，修改DATABASE 属性
+				‘default’:{
+					‘ENGINE’:’django.db.backends.mysql’,
+					‘NAME’:’ 数据库名’,
+					‘HOST’:’localhost|127.0.0.1|10.35.163.38’,
+					‘PORT’:’3306’,
+					‘USER’:’root’,
+					‘PASSWORD’:’root’,
+					‘CHARSET’:’UTF8’
+				}
+
+	   4)  执行默认app模块的迁移计划（admin, auth,session）
+			 python manage.py migrate
+
+		5)  创建自已的模型
+				在  myapp.models.py 文件中创建
+				from django.db  import models
+
+				class Store(models.Model):
+					….
+
+		6)  对自己的模型的制作迁移计划 且 执行
+				python manage.py makemigrations
+
+				python manage.py migrate
+
+
+        7）对模型进行相关的ORM操作
+
+				使用模型类中的objects对象进行操作:
+						Store.objects.all()
+						Store.objects.filter(属性名=值)
+						Store.objects.filter(属性名__运算符= 值)，
+							＃运算符: gt, gte, lt,lte, contains, isnull, in, endswith, startswith, exact(区分大小写)
+						Car.objects.filter(store__name=值)
+
+						Store.objects.exclude(属性＝值)  排除
+
+						Store.objects.create(属性＝值,)
+
+						store = Store()
+						store.属性＝值
+						store.save()
+
+						Store.objects.filter(id=1).update(years=4)
+						Store.objects.filter(id=1).delete()
+
+						Store.objects.filter(years__gt=2).count()  统计纪录数
+
+
+
+
+
+
+

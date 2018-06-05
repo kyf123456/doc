@@ -1,0 +1,189 @@
+1. 获取模型类的查询对象
+   1) 通过session来获取BaseQuery对象
+     query = db.session.query(User.id, User.name)
+
+     可以在query()方法中指定查询的字段Column,
+     如果指定是实体类，则表示要查询类中的所有Column字段，如：
+     query = db.session.query(User)
+
+   2) 通过实体类获取BaseQuery对象
+   query2 = User.query
+   查询所有实体类的字段
+
+
+2. 查询过滤条件
+  1) filter(Column 条件 条件值，)
+     条件：  ==  或 Column.__eq__()
+            !=  或 Column.__ne__()
+            >   或 Column.__gt__()
+            <   或 Column.__lt__()
+            >=  或 Column.__ge__()
+            <=  或 Column.__le__()
+
+            like 模糊查询 Column.like('%i%')
+            in 查询 Column.in_((1,2))
+
+            字符串相关查询条件
+            起始字符  Column.startswith('')
+            结束字符  Column.endswith('')
+            包含字符  Column.contains('')
+
+  2) 聚合查询
+     使用 db.func 对象 进行聚合查询
+       1. count(Column)
+                Column可以是任意一列 '*',
+                但是query查询中必须 指定列(User 或 User.name)
+
+               如：db.session.query(User.name,db.func.count('*')).all()
+
+
+       2. max(Column)  最大
+       3. min(Column)  最小
+       4. sum(Column)  求和
+       5. avg(Column)  平均
+
+     使用聚合函数时，与分组一块使用 BaseQuery.group_by(Column)
+     如：
+        db.session
+          .query(User.name, db.func.count('*'))
+          .group_by(User.name)
+          .all()
+
+       对 聚合函数查询的列，可以使用label()为此列设置别名
+       db.session
+          .query(User.name, db.func.count('*').label('cnt'))
+
+       针对以下的query()查询的字段，sqlalchemy的orm映射成sql如下：
+       select user.name, count(*) as cnt
+       from user;
+
+       如果数据库是mysql， 需要注意：
+       在查询字段中没有使用聚合函数的列，要出现在group by语句中
+       select user.name, count(*) as cnt
+       from user group by user.name;
+
+  3) BaseQuery.filter_by(属性名=属性值,)
+     只能完成等值查询
+     q.filter_by(name='Disen').all()
+     q.filter_by(name='Disen',id=1).all()
+
+  4) BaseQuery.get(ident) 主键id查询，返回实体类对象
+     注： 如果id不存在，则抛出异常
+
+
+3. 排序、分页
+  1) 排序 BaseQuery.order_by(Column) 默认升序
+     如1： q.order_by(User.phone).all()
+
+     降序 Column.desc(),如：
+     q.order_by(User.phone.desc()).all()
+
+  2) 分页
+    从BaseQuery.paginate() 获取 Pagination 分页器
+    paginate(page=1, per_page=10)
+        page  当前页码
+        per_page 每页显示的记录数
+
+    Pagination类对象的属性：
+        items： list类型，当前页的数据
+        has_prev: 是否有上一页
+        has_next: 是否有下一页
+        next_num : 下一页的页码
+        prev_num:  上一页的页码
+        pages :  总页数
+        total : 总记录数
+        page:   当前页码
+        per_page: 每页显示的记录数
+
+
+4. 关联操作
+   1) 定义两个模型类的关系
+   db.ForeignKey('外表名.主键名')  在多端声明外键
+
+   db.relationship('关联类名', backref=)  在多端声明关联类的属性
+   通过backref 在关联类中，声明一个属性，可以关联查询多端的对象集合
+   db.backref('额外属性名', lazy=True)
+      lazy 为True, 表示额外的属性在被调用时，才关联查询
+           为False，在查询一端类的时，也会关联查询
+
+   2）关联添加数据
+     在一端 ：
+        先查询一端的对象：
+        u = User.query.get(1)
+
+        通过backref生成的集合属性，append()添加多端的对象
+        m1 = Music(name='大海',singer='张雨生',brand='经典',mp3_url='')
+        u.musics.append(m1)
+
+        保存一端对象
+        db.session.add(u)
+        db.session.commit()
+
+     在多端
+         m2 = Music(name='小星星',singer='cici',brand='经典',mp3_url='')
+         m2.user_id = 3
+         或 m2.user = User.query.get(3)
+
+         db.session.add(m2)
+         db.session.commit()
+
+   3） 关联查询
+       内连接 db.session.query(User.name,Music.name).join(Music).all()
+       外连接 db.session.query(Music.name,User.name,).outerjoin(User).all()
+
+   4) 关联查询中的  多端属性 的 any()
+      查询有音乐的信息的所有用户
+      User.query.filter(User.musics.any()).all()
+
+5. 扩展其它操作
+    1) 统计查询结果
+      User.query.count()  获取查询的记录数
+      db.session.query(User).count()
+
+    2) BaseQuery.first()  获取查询结果的第一条记录
+    3）db.session.refresh(obj)  同步数据库的内容
+    4) 通过外键查询数据
+       Music.query.filter(Music.user_id == 1).all()
+
+    5) 多对多关联关系
+       使用外键 db.ForeignKey
+       使用第三方表
+
+       class Collect():
+             user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+             img_id = db.Column(db.Integer, db.ForeignKey('image.id'))
+
+
+       查询方式：
+       Image.query
+            .join(Collect)
+            .filter(Collect.user_id==1)
+            .all()
+
+6. SQLAlchemy + MySQL 连接
+   1） 先安装 pymysql
+   2)  配置数据库连接
+       SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@10.35.163.38:3306/users'
+
+
+7. Flask-DebugToolbar
+
+8. Flask-Cache
+
+   安装 pip install Flask-Cache
+
+   创建Cache
+   from flask_cache import Cache
+
+   cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
+
+   在处理函数"上一行" 使用 @cache.cached(timeout=60)
+   设置template的缓存, 即缓存是HTML网页
+
+   注意： 部分flask版本， 会使用 flask.ext.cache 模块，
+         系统提示flask.ext 模块不存在，导致无法导入。
+         目前解决的办法是：
+         修改 site-packages/flask_cache/jinjia2ext.py文件
+         将from  flask.ext.cache import xxx 修改为
+           from  flask_cache  import xxx

@@ -1,0 +1,90 @@
+一、 回顾昨天知识点
+
+  1.  JavaScript(js)分三部分
+		基本语法： ECMAScript(ES) 5/6
+		BOM  :  浏览器对象
+	    DOM:   文档对象
+
+
+2. 基本语法
+	数据类型： String,Number,Boolean,Array,Date,Object
+	在HTML网页编写js:
+		1) 在<script> </script>标记中编写js脚本, <script>可以放在HTML网页的任意位置，但是从上到下依次执行语句。建议放在<head>或<body>的最后。
+
+		2）在<head>中使用<script type=“text/javascript“ src=“”> </script> 方式引入外部的js, 使用外部脚本的函数。
+
+
+3. 输出：
+			弹框：  alert(“消息”);
+			控制台： console.log()  / console.error() /console.debug() / console.warn()
+			DOM输出：
+				DOM ：  HTML网页中标记或标签对象的操作集合。
+				查找网页中标记：
+					var xx =  document.getElementById(“xxId”);    //<a id=“”>
+					var xxs = document.getElementsByName(“”) ; //<input name=“” >
+					var xxs = document.getElementsByClassName(“”) // <a class=“” >
+
+			   添加或设置标记显示的内容：
+					如,查找的标记(<a>)对象名为xx变量：						设置普通文本： xx.innerText = “hello”;  //<a> hello </a>
+						设置HTML文本：  xx.inserHTML = “<em>hello</em>”; //<a><em>hello</em></a>
+			  如果查找的标记是 <input > 输入框类型:
+					读取和设置它的内容(value):
+							var nameInput = document.getElementById(“name”) ; // <input id=“name” > 							var nameVal  = nameInput.value;    # 读取值
+							nameInput.value =“hi,” + nameVal;  # 设置新的值
+
+4. 数据类型转换：
+			String-> Number
+			parseInt(“12”)
+			parseFloat(“3.45”)
+			Number(“1234”)
+
+			Number(“89abc”);  //返回NaN, 比parseInt()严格
+			parseInt(“89abc”); //返回 89
+			parseInt(“abc89”);  //返回NaN
+
+		    如何判断 变量是否为NaN:   isNaN(aa) //返回true或false
+
+5. 相关函数：
+			Math.random()  生成 [0,1)
+			var timeId = setInterval(函数名， 间隔时间(ms))  ＃  开启定时器，返回定时器的id
+			clearInterval(timeId)  停止定时器
+
+6. 修改DOM标记的样式：
+			xx.style.color=“red”;
+			xx.style.backgroundColor= “blue”;
+
+		注意： 标记的style作为Object对象来使用，style中样式名作为对象的属性名。
+
+7. 分支：
+		 if 分支
+				语法：  if (条件){
+								语句
+							}else if(条件2){
+							}
+							else{ }
+
+		switch分支
+				语法：
+					switch(变量){
+						case 常量值:   //变量 == 常量值
+							语句;
+							break;
+						case …
+						[ default:   //其它case都不满足时，转入default
+								语句 ]
+					}
+
+8. 函数：
+			定义函数
+			  function 函数名() {
+					语句;
+				}
+
+			 function 函数名(形参) {
+					语句;
+					[return 返回值];
+			 }
+
+		调用函数：
+			 函数名();
+			 var r =  函数名(实参);

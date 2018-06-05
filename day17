@@ -1,0 +1,60 @@
+一、 回顾昨天知识点
+
+	1. 使用的模块
+		from tkinter  import Frame, Tk, Button, Label, Listbox
+		from tkinter.font import Font
+		# pillow
+		from PIL import Image, ImageTk  #  ImageTk.PhotoImage()
+
+		import os
+		import pygame
+
+		from datetime import datetime
+		from threading import Thread
+
+		import time
+
+	2.   窗口创建， 窗口和组件（小部件）之间的关系
+
+		顶层窗口： master =  Tk()
+		组件在创建时，必须指定它的父窗口:
+		listFrame = Frame(master)
+		nameLabel = Label(listFrame)
+
+	3.  组件或小部件装载到窗口（布）
+			1. pack()  在窗口的上、下、左、右位置装载显示， 指定side = LEFT|RIGHT|TOP|BOTTOM
+
+			2. grid() 以表格方式（行、列）装载显示， 指定row , column
+
+		  注意： 在同一个窗口或Frame中， 直接子部件或组件的布局方式必须统一
+
+    4.  小部件的事件处理
+			在创建 Button等可处理事件的部件时， 可以在构造函数中传入一个command属性，属性值是一个有效的函数或方法名，也可以通过部件对象方式 ，如 playBtn[‘command’] = play
+
+
+	5. 显示图片
+
+		img = Image.ope(‘xxxx.jpg’)  # 图片太大时，可以使用img.resize((width, height), Image.ANTIALIAS)
+		imgPhoto = ImageTk.PhotoImage(img)
+		imgLabel = Lable(image=imgPhoto )
+
+
+   6.  创建线程和启动线程
+		tt = Thread(target=运行的函数名， args=(函数参数列表,))   ＃ 子线程
+		tt.start()  ＃启动线程， 线程启动之后， 则会运行target指定的函数， 当函数运行结束时，则线程也会停止
+
+		强行等待线程结束： tt.join()   阻塞当前线程的执行
+
+  7. pygame音乐的播放
+			1)  pygame.mixer.init()  初始音频的媒体
+			2) pygame.mixer.music.load(path) 加载音乐文件
+			3) pygame.mixer.musice.play()  播放
+			4) pygame.mixer.music.pause() 暂停
+			5) pygame.mixer.music.unpause() 取消暂停
+			6) pygame.mixer.music.stop() 停止
+			7) pygame.mixer.music.get_pos() 获取当前正在播放的位置（时间，毫秒）
+			8) pygame.mixer.music.set_pos(ms) 设置当前播放的位置
+
+
+
+

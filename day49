@@ -1,0 +1,72 @@
+一、回顾昨天知识点
+1. Response相关属性
+    content 响应的内容， b’’
+	 charset 字符集
+	 content_type 响应数据的类型mime_type
+							text/html   -> HTML文本
+							image/png  ->png图片
+							image/jpeg ->jpg图片
+							application/json  ->json数据
+	  status:  响应的状态码, 200, 404/403, 500
+2. 生成Token
+	Token是一种身份识别的方式，称之为令牌
+	 md5方式：
+			组成的数据成员： ip+时间戳+特殊符号+用户名等
+			from hashlib import md5
+			m = md5() / sha1() / sha256()
+			m.update(‘aaaa’.encode())
+			token = m.hexdigest()  # md5返回是32位长度
+
+	 uuid+md5方式：
+			from uuid import uuid4
+			uuid = uuid4()
+			m = md5()
+			m.update(str(uuid).encode())
+			token = m.hexdigest()
+
+3.  中间件
+	 中间件设计思想： 面向切面编程AOP
+	 django实现的轻量级的AOP（装饰函数）:
+			针对中间件MiddlewareMixin类的相关函数
+			process_request(request) : 从浏览器到url路由
+			process_response(response): 从模板返回到浏览器
+			process_views(request, view_fun,args,kwargs): 从url路由到view处理函数
+			process_template_response()  :  从views处理函数到响应模板
+
+	自定义中间件：
+		1）在项目的根目录下，创建middleware文件目录
+		2）在目录 中创建一个python脚本，如counter.py
+		3) 在python脚本 中定义一个类 ,如Counter
+			类必须要继承 MiddlewareMixin
+
+		4) 在类中，声明相关的处理函数，如process_request		5) 在处理函数中，实现拦截或统计等相关的功能。
+		6）在settings.py文件中，注册中间件
+			MIDDLEWARE  = [,
+				‘middleware.counter.Counter’
+			]
+4.  分页器
+	 主要用到两个核心类：
+			Paginator  分页器
+				1）创建分页器 Paginator(数据集， 每页显示的数量)
+				2）获取指定页码的分页对象 Page
+					 page = paginator.page(1) ＃ 1 表示第一页
+				3）获取页码范围
+					 pages = paginator.page_range()  # range(1, 6)
+
+			Page 分页对象
+				1） 获取当前页面的数据
+					  page.object_list  # list[]
+				2)  获取当前的页码
+					page.page_num
+
+				3) 是否存在上一页或下一页
+					page.has_previous ,  page.previous_page_number
+					page.has_next,  page.next_page_number
+
+二、 今日任务
+  1.  验证码
+		1) 生成验证码图片 － pillow/Image, ImageDraw, ImageFont
+		2) 存储验证码(cookie或session)并验证
+  2. tinymce 富文本
+
+  3. 缓存cache

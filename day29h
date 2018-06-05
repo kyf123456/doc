@@ -1,0 +1,56 @@
+一、 回顾昨天知识点
+ 1.  解决中文乱码问题
+	 服务器的配置文件： /etc/mysql/mysql.conf.d/mysqld.cnf
+				      [mysqld]
+					character-set-server = utf8
+
+	  客户端的配置文件：  /etc/mysql/conf.d/mysql.cnf
+							[mysql]
+							default-character-set = utf8
+
+  2. 表的修改
+	 修改表名
+		alter table <表名>  rename <新表名>
+
+	  添加表字段
+			alter table <表名>  add <列名> <类型> (长度)  ［约束］[备注]
+
+	  删除表字段
+			alter table <表名> drop <列名>
+
+	  修改表字段
+			alter table <表名>  modify <列名> <类型> (长度)  ［约束］[备注]
+
+	   修改表字段名
+			alter table <表名>  change <列名> <新列名>  <类型> (长度)  ［约束］[备注]
+
+  3.   修改表的字符集(编码)和列的字符集(编码)
+		show create table <表名> ;  查看创建表的sql语句
+
+		alter table <表名>  default charset = utf8;
+
+		alter table <表名>  modify  <列名> <类型> (长度)  character set utf8;
+
+
+4. 查询条件
+		between <最小值>  and <最大值>  按给定的［最小值 ， 最大值 ］集合范围查询。
+
+		like 匹配条件    在匹配条件中， 可以使用 % 和 _
+							％ 任意0到多个字符
+							_ 任意一个字符
+
+	这些条件可以和 select , update, delete 语句一块使用。
+
+5. 聚合函数
+		count()  统计数量
+		sum()  计算总和
+		max()  最大值
+		min()  最小值
+		avg() 平均值 ，   和 round(小数值， 保留的小数点)  四舍五入
+
+	和group by 分组语句一 块使用，  在select 语句中，没有出现没有使用聚合函数的字段，则必须要出现在group by分组语句中。
+
+      如， 查看每种水果的总收入。
+
+			select  fruit_name, sum(order_money) from order_view group by fruit_name
+

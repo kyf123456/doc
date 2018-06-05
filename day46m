@@ -1,0 +1,43 @@
+
+1. 在创建模型时，常用哪些字段类型，如 models.CharField(max_length=20)
+  AutoField(auto_create=True, primary_key=True)
+  IntegerField(default=0,verbose_name=‘’)
+  DecimalField(max_digist=10, decimal_places=2, default=0)
+  BooleanField(default=True)
+  DateField()/DateTimeField()/TimeFiled()   :  auto_now=True, auto_now_add=True, default 和auto_now 及auto_now_add冲突的，即只能设置一个。
+  UUIDField()
+
+2.  现有User和Post两个模型类， 两者之间是多对多关系，它们的属性如下：
+     User ： name ,  关系确定后添加隐性对象属性 post_set->Manager类型（objects）
+     Post :  title, publish_date , users = models.ManyToMany(User)
+
+    要求： 1）查找 disen用户， 并向此用户添加两个Post对象
+		    2）查询 disen用户下所有的Post信息
+
+	   1)  u = User.objects.get(name=‘disen’)  # 获取是模型类对象
+		   p1 = Post.objects.create(title=‘您好’)
+		   p2 = Post.objects.create(title=‘不好’)
+		   u.post_set.add(p1, p2)
+
+	 # 关联的类对象是可以发起级联查询
+	 2）User.objects.filter(name=‘disen’).last().post_set.all().values()
+
+3.  实现请求处理函数时，必须要返回一个HttpResponse类对象，
+    在views模块中哪些函数或类可以返回一个HttpResponse类对象。
+
+		1) render(request, ‘模板文件.html’, context={“data”: xxx})
+		2) HttpResponse(‘<h1>welcome</h1>’)
+		3) HttpResponseRedirect(‘/main/’)  重定向
+		4) JsonResponse({“data”:xxx})  返回json对象
+
+4.  在模板网页中， 假如传入一个查询结果users列表变量，
+   要求 读取所有用户名、显示序号，且奇偶行<tr>或<li>显示不同的字体颜色
+    {% for user in users %}  # 5个用户
+	<ul  style=“{% cycle  ‘color:red;’  ‘color:blue;’  %}”>
+		<li> {{ forloop.counter }} </li>
+		<li> {{ user.name }} </li>
+	</ul>
+      {% endfor %}
+
+
+

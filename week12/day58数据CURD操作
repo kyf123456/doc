@@ -1,0 +1,57 @@
+1. 使用 SQLAlchemy的方法
+  pip install flask-sqlalchemy
+  pip install flask-migrate
+
+  配置 数据库连接
+  SQLALCHEMY_DATABASE_URI = 'sqlite:////home/apple/news.db'
+  SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+  创建数据库对象和初始始
+  在models.py文件中
+    db = SQLAlchemy()
+
+    def init_db(app):  # __init__.py调用的
+        db.init_app(app)
+
+        # 创建migrate对象
+        Migrate(app,db)  # from flask_migrate import Migrate
+
+  在 manage.py文件中
+  向manage中添加db命令：
+    # from flask_migrate import MigrateCommand
+    manage.add_command('db', MigrateCommand)
+
+
+  # 在命令行中初始化数据库、生成迁移计划、执行迁移
+  python manage.py db init
+                      migrate --message '消息'
+                      upgrade
+
+
+  在views处理请求函数中，使用models.db.session或
+  models.模型类来实现数据库的增、删、更、查询
+
+  增加/修改：
+    models.db.session.add(obj)  # obj是db.Model类子类的对象
+    models.db.session.add_all((obj1,obj2,obj3,))
+  删除:
+    models.db.session.delete(obj)
+
+  提交事务:
+      models.db.session.commit()
+
+  查询：
+       models.模型类.query.all() 查询所有模型类对象
+
+       models.db.session.query(模型类).all()
+       models.db.session.query(模型类).filter_by(属性名=条件值)
+       models.db.session.query(模型类).get(主键值)
+       models.模型类.query.get(主键值)
+
+
+
+
+
+
+

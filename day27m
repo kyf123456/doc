@@ -1,0 +1,66 @@
+1.  在disen用户下，添加一个定时任务，规定每天晚上9点50分，关闭 ssh服务
+   1）切换 disen用户
+	2）编写 xxx.cron
+		 50 21 * * * sudo /etc/init.d/ssh stop  或
+		 50 21 * * * sudo service ssh stop
+	3) crontab xxx.cron
+
+	 crontab -l  查看当前用户的定时任务
+
+	扩展： /etc/crontab  系统级别的  或 root 用户添加定时任务
+
+2. 在git 安装之后, 如何配置自己的git服务器和创建 images.git 仓库
+	1） 切换 root
+	2） 创建 git 用户
+			useradd git -d /home/git -m
+			passwd git   # 输入两次密码
+	3) 切换git用户
+		  cd ~
+		  mkdir repositories
+		  chmod 755 reposistories
+	4) 创建 images.git仓库
+		cd respositories
+		git init －－bare images.git
+
+3. 如何将服务器的 images.git 仓库复制到本地来，同时添加一个 hello.py 文件，并提交到远程服务器
+	1) 切换 cici 用户（普通用户）
+	2) cd ~
+		 git clone git@localhost:~/repositories/images.git
+		 输入git用户的口令
+
+	3）添加hello.py文件
+		cd images
+		echo “print(‘hello’)” >> hello.py
+		git add hello.py
+		git config  --global user.email “cici@163.com”
+		git config --global user.name “cici”   # git config -l
+		git commit -m “add hello.py”  # -m 本次提交的说明
+		git push
+
+4. 如果A、B两个用户同时 从远程仓库中clone 到本地，然后A 添加一个a.txt文件并上传之后， B也添加了一个a.txt文件，对于B用户，如何把自己的a.txt上传到服务器
+
+	B 用户：
+		 git pull   # 从服务器先下载（更新），并自动合并有冲突的问题
+		 查看是否存在冲突的文件，如果存在冲突文件，则编写合并后的冲突文件
+		 git add .
+		 git commit -m “修改xx文件”
+		 git push
+
+5.  如何配置免密码方式操作git服务器
+	1） ssh-keygen
+		在当前用户的 ~/ 目录下，创建.ssh目录，目录下有两个文件
+		id_rsa  ＃ 私钥文件， 默认的长度是2048字节 （2k bytes）
+		id_rsa.pub  # 公钥文件
+
+	2）将公钥文件上传到 git服务器
+		 scp ~/.ssh/id_rsa.pub  git@10.35.163.40:~/
+
+    3) 在git服务器上，切换git用户
+		 cd ~
+		 mkdir .ssh  # 第一次使用，创建.ssh目录
+		 cat id_rsa.pub >> authorized_keys
+
+	4) 测试：
+		ssh -T git@localhost
+
+

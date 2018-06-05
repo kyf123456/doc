@@ -1,0 +1,91 @@
+回顾昨天知识点：
+
+	1.   选择器的优先级
+
+		四个层次：
+			行内选择器  1000
+			id选择器： 100
+			class选择器： 10
+			标记、伪类选择器：  1
+
+
+	2.  引入样式的顺序
+		行内样式  》  内联样式  》  外联样式
+
+		如果在样式中 使用  !important   关键字，会强制引用
+
+		a {
+			color: yellow !imprtant;
+		}
+
+	3. 文本相关样式
+		font :   font-size font-family
+		font-weight:  normal|bold
+		font-size:   大小
+		font-style:    样式 italic| normal
+		color:  red|#rgb|rgb()|rgba()
+
+		text-transform:  capitalize | uppercase | lowercase
+		line-height:  基准线的高度
+		letter-spacing:  字间距
+		word-spacing:  单词间距
+
+	4.  列表相关
+		list-style: none|underline
+		list-style-image:   列表项图片
+		list-style-position:  列表项位置
+
+    5.  	位置和浮点
+		position:  static|relative|absolute|fixed
+		相对位置relative：
+			默认位置，按文档流的特性排序的
+			可以使用 top, left, right, bottom 来设置上，下，左，右的间隔，百分比是相对于父标记。
+
+
+	    绝对位置absolute： （会跳出原文档 流）
+			可以使用left, top, right,bottom来设定在窗口的某一位置。
+			 right: 100px;  在距离右边100px位置上。
+
+		float:   left|right
+		按左右方向来浮动 (额外增加： z 高度)
+		在块元素中， 它的所有子元素都是float，则会出现高度塌陷问题，可以使用清除浮动的方式来解决。
+		 清除浮动的方式：
+				1.  在块元素内最后位置添加一个子块元素，并且设置高度为0
+				2. 设置块元素的overflow:  hiddern，clear: both
+				3. 伪类方式：
+						块元素:after{
+							content:””
+						     display: block;
+							 height:0;
+							 clear:both;
+						}
+
+	 6. 盒子的阴影
+			box-shadow:  5px 5px 	10px yellow;  /*第一个和第二个表示和元素本身的左边和顶边的间隔， 第三个表示 圆角的角度， 第四个是阴影颜色*/
+
+	7. 动画
+		本质修改元素的属性， 借助时间和目标属性来设置元素。
+		transition:  属性名 动画时间  动画时间函数(ease|ease-in|ease-out|ease-in-out|linear)  延迟时间, 属性名 …;
+
+		transform: rotate(45deg)|scale3d(1.5, 1.5, 1.5)
+		transition: transform 0.5s ease 0.1s  /*过渡动画*/
+
+
+	8. id和class区别
+		id 只针对某一个元素来设置样式
+		<a id=“a1” >
+		<a id=“a2”>
+
+		<div id=“d1” style=“color:red”>
+			<span>红色</span>
+			<span style=“color:white;”>白色</span>
+		</div>
+
+		class 定义的样式： 可以被 重复使用
+		<a class=“info”>
+		<a class=“info”>
+		<a classs=“info”>
+
+
+
+

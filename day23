@@ -1,0 +1,221 @@
+一、 回顾昨天知识点
+
+   ls  -l 列表
+		-t 时间排序， 降序排
+		-r 反序
+	 	－F  显示路径 /
+		- R 级联显示子目录及子目录中文件
+		-a 显示所有文件，包含.隐藏文件
+		-A 除了 . 和 .. 根目录，之外的其它文件
+		-i 显示文件的索引号( index number,  inode)
+
+  cd  ..  切换上一级目录
+		~  切换 到当前用户home目录
+		/ 切换到根目录
+
+  pwd  显示当前（绝对）路径
+
+  ll  显示所有的文件， 等同于 ls -laF
+
+  mkdir  创建目录
+			 -p  级联创建子目录
+			 -v 显示创建过程
+			 -m 设置文件及目录的权限(类似chmod 命令中权限)
+  mkdir -pv a/b/c -m 770
+
+
+	rmdir 删除目录
+			 -p
+			 -v
+
+	rmdir -pv a/b/c
+
+	rm  删除目录及文件
+		  -d 删除空的目录
+		  -r 级联删除目录及文件
+		  -f 强制删除，没有提示,  [ubuntu17 默认]
+		  -i  删除文件及目录时询问
+
+	abc/ccc/ddd/a.txt
+	rm -rf  abc
+
+	touch  修改文件的访问时间和修改时间
+				-t 修改日期和时间， 格式: [cc]yymmddHHMM.ss
+				-d  修改日期 ， 格式： [cc]yymmdd
+				-m 文件的modify-data时间，格式同 -t
+				-a 修改所有的时间（文件时间）
+
+	cp 复制目录及文件
+		 -f  如果目录及文件存在，则覆盖，[ubuntu默认]
+		 -i 提示
+		 -v 显示过程
+		 -a 复制文件的所有属性
+		 -r  复制目录时，级联复制子目录及文件 ［ubuntu 必要］
+
+	mv 移动目录及文件
+		  -i 提示
+
+	abc bcd/aa
+	mv abc bcd/aa    # bcd/aa必须要存在， mkdir -p bcd/aa
+
+
+# 复制/移动 a目录下所有的.py和.txt 文件 到 b/a 目录中
+    cp  a/*.py  a/*.txt  b/a/
+	 mv  a/*.py  a/*.txt  b/a/
+
+ tree  树形显示目录及子目录
+		 -P pattern 显示匹配文件， tree -p *.txt
+		 -f 显示完整路径
+		 -s 显示文件的大小
+		 -D 显示最后修改的时间
+		－－－－－－－－－－－－
+		 -t 按最后修改的时间排序
+		 -c 按文件最后状态的时间
+
+	tree a -P *.txt  -fsD
+
+	xargs  将换行<newline> 转成 空格， 同时可以指定命令来处理，默认的处理命令是 echo,   一般和find,cat 等有输出内容的命令组合使用
+
+	        -l[n]  一次处理几行
+			 -s [max-chars]  每行显示的最大字符数[包含命令在内]
+			 -a 指定输出的文件
+			 -E ‘某一行的内容’，  截止到指定行位置（不包含）
+			 -d 字符(单个， 如果像’和\ 字符需要转义\)  将输出的内容中指定的字符转成分隔符（空格）
+
+
+现有文件a.txt :
+hello
+disen,’gogo’
+good\morming!
+byebye
+
+xargs -a a.xt -l3  # 显示结果：
+								hello disen  good morming!
+							    byebye
+xargs -a a.txt -d \’  将 所有的 ’字符转成了 空格
+xargs -a a.txt -d \\  将所有的 \ 字符转成了 空格
+
+
+find 查找文件
+		-name 指定查找文件名， 可以使用 pattern匹配的字符, 默认从当前目录中查找
+		-exec <Command> 命令
+
+find -name ‘*.py’  查找当前目录下所有的.py文件
+find -name ‘*.py’ | xargs  -E ‘./3.py’   查找所有 在./3.py文件之前的所有py文件
+find -name ‘*.py’ -exec python3 {} \;   #  {} 查找出来的.py文件
+find -name ‘3.py’ -exec cat {} \;   #  如果查找到3.py文件时，则会显示这个文件的内容,   如果查找的结果只有一个文件时，可以试着 去掉 { } \;
+
+ln 创建连接
+	-s 软连接, 以独立的文件存在的，如果目标文件被删除，不会删除软连接文件
+	-d 超级用户(root), 尝试创建目录的硬连接
+
+	默认创建的是硬连接： 一个文件两个名字(文件的属性全部一样)
+
+ln  -s /usr/bin/python3  /usr/bin/python     创建python3的软连接 python
+#  python - > python3
+
+
+ chmod  修改权限（三组(ugo) a，每组 rwx,  数字组成421）
+ chmod  a+x python   # 为所有用户 添加 执行 python权限
+
+
+2.  用户和用户组管理
+
+    用户：
+				useradd   添加用户
+                -d home_dir  指定用户的home目录
+                -m  创建home_dir
+                －r  创建系统用户
+                －g 组名 指定主组， 如果不指定，主组名跟用户名相同
+                －G 组名， 指定附加组
+     useradd -d /home/judy  -mr  judy    # 创建 judy用户，同时创建judy
+     passwd judy  ＃为judy添加口令  ，提示输入两次
+
+     su judy   ＃ 切换用户， 提示输入口令
+
+    userdel    删除删除
+        userdel judy  # 不会删除home_dir
+        userdel -r judy  # 删除home_dir , /var/jud
+
+    usermod  修改用户
+            sudo usermod judy -l tom  # 修改judy用户登录名为tom
+            sudo usermod tom -L  ＃加锁
+            sudo  usermod tom -U
+
+	组： groupadd  添加组
+			   sudo groupadd redis
+				sudo useradd cici -d /home/cici -rm -g redis
+				sudo useradd tom -d /home/tom -rm -g redis
+
+				sudo passwd cici
+				sudo passwd tom
+
+				cat /etc/group  查看所有组的信息
+				ls  -l  /home
+
+				sudo groupadd tt
+			groupdel   删除组
+				sudo groupdel redis  # redis组内没有用户的前提
+				sudo groupdel tt
+
+	gedit  /etc/apt/sources.list
+
+	sudoers 问题
+    ————
+	   su root
+		gedit /etc/sudoers  使用gedit文本编辑打开 sudoers文件，在root ALL=(ALL:ALL) ALL 行下增加一行
+		cici  ALL=(ALL:ALL)  ALL
+
+	为 cici用户添加 sudo使用权限，测试：
+	 su cici
+    sudo useradd cindy
+	 sudo userdel cindy
+
+
+3. vi 编辑器的使用
+
+   vi --version	 查看vim版本 ， 是否为 vim-tiny
+
+	三个模式：
+       普通模式：
+				移动光标
+				shift+: 进入命令行
+				按以下的字母进入插入模式：
+						i   当前光标的位置
+						a  当前光标的右边位置
+						o  当前行下插入空行
+						O  当前行上插入空行
+				 I  光标移动行首
+				 A 光标移动行尾
+				 G 光标移动到最后一行行首
+
+				v 进入可视模式
+				r  替换一个字符模式，之后进入普通模式
+			    R  整个文档进入替换模式, Esc进入普通模式
+
+			   删除d/复制y/粘贴p
+				删除：  dd  当前行
+							ndd 从当前行开始向下删除n行
+				           d 从光标位置开始 左向或右向删除1个字符
+								从光标位置开始 向上或向下 删除2行
+							nd 从光标位置开始， 左向或右向(包含当前) 删除 n个字符
+								 向上或向下删除 n + 1 行
+
+							p  将d或y 内容粘贴到当前行的下一行
+							yy  复制当前行
+							nyy 从当前行开始，向下复制 n 行
+
+		命令行模式：
+						set number  显示行号
+						n                 转到第 n 行
+						/pattern      转到匹配字符的行首
+		插入模式：
+					Esc 退到普通
+
+
+
+
+
+
+
+

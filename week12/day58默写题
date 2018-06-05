@@ -1,0 +1,41 @@
+1. 写出Flask项目 MVT规范的目录结构
+    App
+      -> static
+      -> template
+      -> __init__.py
+      -> views.py
+      -> models.py
+      -> settings.py
+    manage.py
+
+2. 关于配置路由时， 路径中的 <converter:name> 代表的意义，
+存在哪些converter
+    1） <converter:name> 代表请求路径包含了name的参数
+    2） name参数必须在视图处理函数中声明，如
+        @blue.route('/add/<name>')
+        def add(name):
+            ...
+
+    常用converter: string, int,float, path,any(aa,bb),uuid
+
+3. 模板文件中的{% extends %} 和 {% include %} 的区别
+
+    {% extends %} : 继承指定的模板内容，
+                    可以填充指定的位置的数据
+                    必须结合 {% block aaa %}
+                    另外，可以使用 {{ super() }} 保留原来的位置的内容
+
+    {％ include %} : 导入指定模板的内容，仅限于内容
+
+4. 在views函数中，返回的对象可以有哪些？
+
+   1) return 'aaa'
+   2) return 'bbb', 200
+   3) return Response('aaa')
+   4) return render_template('zxx.html', datas=users)
+   5) return redirect(url_for('main.index'))
+   6)
+        resp = Response('{"name":"disen"}')
+        # 设置响应头，Content-Type 返回数据的类型及编码字符集
+        resp.headers['Content-Type'] = 'application/json;charset=utf-8'
+        return resp

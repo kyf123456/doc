@@ -1,0 +1,57 @@
+回顾昨天知识点
+ 1.  定义样式
+   在<head>标签中使用<style>标签来声明样式
+		<head>
+			<style>
+				  /*在此定义样式*/
+			</style>
+		</head>
+2. 定义样式的选择器类型
+ id 选择器
+	格式： #xxx { }
+	HTML：  <a id=“xxx”>
+class类选择器
+	格式： .xxx { }
+	HTML:   <div class=“xxx” >
+	标记(标签)选择器
+	格式： 标记名 ｛｝
+	如：  a { }
+			div {}
+			h1 { }
+群组选择器
+	同时定义多个标记的样式
+	格式： a, div , h1 { }
+	包含选择器
+	格式:  .header {}
+			.header a { }
+	属性选择器
+	格式：
+input [type=‘text’],[type=‘password’] { }
+伪类选择器：
+		格式：  标记名:伪类名 { }
+		伪类：
+		:hover   在上方
+		:active  激活
+		:focus  获取焦点
+		:after  在元素后， content: url()
+		:before 在元素前,  content: url()
+3. 常用的样式属性：
+	  background-color
+	  background-image
+	  background-size
+     background-repeat
+	  background:  url(‘’)  cover no-repeat
+
+	  font-size:	 字体大小
+	  color :  字体颜色
+盒子：
+		 border: 1px solid  blue;
+		 border-right: 	1px dashed yellow;
+		 width: 宽度
+		 height:  高度
+		 padding: 内边距，内填充
+		 margin:  外边距
+
+	display:  none|inline|inline-block|block
+	text-decoration: none|undline
+

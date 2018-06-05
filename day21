@@ -1,0 +1,63 @@
+1.  iterator 迭代器
+
+	iter()  ->  将 可被迭代的对象 iterable 转成迭代器
+
+	 获取迭代器（集合）中的数据：
+
+       1.  next(迭代器对象)
+	   2.  for 循环
+
+	当迭代器的值 读取完成后，迭代器中的数据则变为空 None
+
+
+2. 什么 是 iterable:  可被迭代的对象：  对象的数据至少包含一个元素
+
+	包含：  str, list, tuple, set, dict  , generator , iterator
+
+	for 循环可以循环读取被迭代对象中的每一个元素。
+
+	collections.Iterable,
+     collections.Iterator
+
+	types.GeneratorType   生成器类型
+
+3.  生成式
+
+	1.  列表生成式［ x for x in range(1,21) ］ -> list
+	2. 生成器的生成式  ( x  for x in range(1,21) )   -> generator
+	3. 集合的生成式 { x for x in range(1,21) } -> set集合
+	4. 字典的生成式 { key:value  for key,value in ((‘a’,1),  (‘b’, 2)) }
+
+		d = {'a':1, 'b':2}  # d.keys(),  d.values(), d.get(key), d.update({}), d.pop(key), d.popitem()
+		d = {value:key for key,value in d.items()}   # ［(‘a’, 1), ()］
+
+4. 网络
+	socket 套接字( BSD 协议)： 主机、端口、类型（TCP ： SOCK_STREAM,  UDP:  SOCK_DGRAM）、家族family(网络AF_INET)、协议 = 0
+
+      TCP/IP 通信：
+          点(IP, PORT) － 对 － 点 (IP,PORT)
+
+             s = socket()   						 s2 = socket()
+		    s.bind((‘localhost’, 4457))
+		    s.listen()
+		   conn , addr = s.accept()       <-   s2.connect((ip, port))
+		   # conn = = s2
+		   conn.send(b’——’)                ->  data=   s2.recv(1024)  # data = b’——’
+		   data = conn.recv(1024)		  <- s2.send(b’hello’)
+
+            s.close()	                             — s2.close()
+
+	UDP/IP通信：
+         192.168.10.110							     192.168.10.120
+		s = socket(type=SOCK_DGRAM)        s2 = socket(type=SOCK_DGRAM)
+		s.bind((ip, host))
+
+		data, addr =  s.recvfrom(1024)     <-     s2.sendto(b’hello’, (ip, port) )
+		# data = b’hello’
+		# addr = (192.168.10.120,  )
+		s.sendto(b’hi’,  addr)				->    data, addr = s2.recvfrom(1024)
+												       # data = b’hi’
+                                                                # addr = (192.168.10.110, )
+
+
+

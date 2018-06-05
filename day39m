@@ -1,0 +1,53 @@
+1. 获取网页的地址和地址中的所有的请求参数
+   示例： http://localhost:63342/w01.html?name=%E8%A5%BF%E5%AE%89&age=20
+   注意：需要处理中文的URL编码
+
+	<script>
+    var url = document.URL;
+    var params = url.substr(url.indexOf(“?”)+1).split(“&”);  //返回数组
+    for(var i in params){
+		 if(/([a-z]+)=([%a-z0-9]+)/i .test(params[i])){
+		 		var key = RegExp.$1;
+				var value = RegExp.$2;
+				if(key==“name”){
+					value = decodeURIComponent(value);
+				}
+				console.log(key, value);
+		  }
+
+    }
+    </script>
+
+2. 给定一个url地址，通过ajax方式来获取它的数据
+   var url = “http://localhost:63342/users.json”
+   function loadData(){
+         var xhr = new XMLHttpRequest();
+		  xhr.open(“get”,url,true);
+		  xhr.onload= function(){
+				if(xhr.status==200 && xhr.readyState==4){
+					 console.log(xhr.responseText);
+					 parseData(xhr.responseText); //解析响应的数据
+				}
+		   }
+			xhr.send();
+	}
+
+3. 解析users.json数据，并显示到HTML中
+   users.json数据格式:
+   ｛”status”:”ok”, “data”:[{“name”:”disen”, “age”:”20”},{“name”:”jack”, “age”:”21”}]}
+
+	function parseData(respTxt){
+			var jsonObj = JSON.parse(resqTxt);
+			var div = document.getElementById(“userDiv”); //<div id=“userDiv”></div>
+			for(var i  in jsonObj.data){
+				 var userObj = jsonObj.data[i];
+				 div.innerHTML +=	“<ul><li>”+userObj.name+”</li><li>”+userObj.age+”</li></ul>”;
+			}
+	}
+
+4. 写出常用的事件名和事件可绑定的DOM标签
+	<button> :  onclick
+	<input>:   onblur, onfocus, oninput, onchange
+	<select>:  onchange
+
+

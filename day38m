@@ -1,0 +1,54 @@
+1.  以构造函数方式，声明水果类Fruit和初始化对象的相关属性（水果名name、价格price, 数量cnt）,并以prototype方式向水果类中添加一个sale函数，实现水果销售功能。
+	提示： sale函数中带有一个形参（代表本次销售水果的数量)。
+
+   function Fruit(name,price,cnt){
+      this.name= name;
+      this.price = price;
+	  this.cnt = cnt;
+   }
+
+   Fruit.prototype.sale = function(cnt){
+			this.cnt -= cnt;
+		    alert(“本次销售的水果数量:”+cnt+”, 剩余数量:”+this.cnt);
+	}
+
+	var apple =new Fruit(“苹果”,4.5, 100);
+    apple.sale(5);
+
+2.  使用正则，将给定的字符串中字母和数字替换成*
+    s = “@disen888_good!”
+	s = s.replace(/[a-z0-9]/ig, “*”);
+
+3. 点击网页中的铵钮时，在当前按钮上显示当前系统时间(格式：时:分:秒)
+    注意： 点击按钮之后，在1分钟内不能再点击
+
+	<body>
+			<button onclick=“showTime(this)”>显示时间</button>
+			<script>
+					function showTime(btn){
+						 var d = new Date();
+						 btn.innerHTML=“当前时间：”+d.getHours()+”:”+d.getMinutes()+”:”+d.getSeconds();
+						btn.disabled= “disabled”;
+						setTimeout(function(){
+								btn.disabled=“”; //取消禁用
+
+						},60000) ;
+					}
+
+					function showTimeDymatic(btn){
+						 var d = new Date();
+						btn.disabled= “disabled”;
+						var s = 60;
+						var tid= setInterval(function(){
+								if(s==0){
+									btn.disabled=“”; //取消禁用
+									clearInterval(tid);  //取消定时器
+								}
+
+								btn.innerHTML=“当前时间：”+d.getHours()+”:”+d.getMinutes()+”:”+d.getSeconds();
+								s--;
+						},1000) ;
+					}
+
+			</script>
+

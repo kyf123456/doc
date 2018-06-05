@@ -1,0 +1,55 @@
+1.   列出常用的块元素和内联元素
+	块元素：  <div> <p> <ul> <ol> <li> <table> <tr> <td>  <thead> <tbody> <form>   dl  dt dd
+     内联元素： <img> <a> <strong> <em> <input> <button> <span> <label> <select> <textarea>
+
+2. 如何将下面的B放在 A的右边，并对A和B设置鼠标放上时的显示阴影效果
+	<div id=“A”>
+		<select >
+			<option>西安</option>
+		       <option>北京</option>
+		</select>
+	</div>
+	<div id=“B”>
+		<select >
+			<option>长安区</option>
+		       <option>雁塔区</option>
+		</select>
+	</div>
+
+在样式内：
+	<style>
+		#A, #B { float:left}
+		#A:hover, #B:hover {
+			box-shadow: 5px 5px 5px lightgray;
+		}
+
+	</style>
+
+
+3.  使用float（浮动）时，可能会出现高度塌陷，如何解决
+	1) 在父块中的样式内，设置 overflow: hidden;
+	2) 在父块中的最后一个子元素的下面添加一个块元素，并且设置它的高度为0
+	3) 为父块添加一个:after伪类样式，内容：
+			xxx:after{
+				display:block;
+				content:””;
+				height:0;
+				clear:both;
+			}
+
+4.  相对位置与绝对位置的区别是什么？
+	相对位置:  相对于所在父块中的当前位置， 如果使用百分比，则相对父块， 不跳出父块，如果超过父块的大小，
+			     可以设置父块的overflow属性。
+
+	绝对位置： 相对整个页面或窗口， 通过left, top , bottom, right设置相对页面的位置。 会跳出正常文档流位置。
+
+
+5. 设置<span>标记的高度为200, 宽度200，同时设置超出部分不显示。
+	<style>
+		span {
+			display: inline-block;
+			width: 200px;
+			height:200px;
+			overflow: hidden;
+		}
+    </style>

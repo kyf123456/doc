@@ -1,0 +1,74 @@
+1、os的文件与目录操作
+
+		open()  : stream 对象
+		第一个参数： path 文件路径
+		path文件路径：
+				1） 相对路径
+						 .  当前目录，‘./aa.txt’  当前目录下创建文件
+						 ..  当前目录的上一级目录(父目录)
+
+		当前目录   d:\codes\week02\day03\
+		创建目标文件 ：d:\codes\week02\总结.txt
+					‘../总结.txt’
+
+			  2) 绝对路径： 从根目录开始
+					linux/mac :  /    ,  ~
+					Window:   c:\Users\administrator
+											d:\codes\xx.zip
+										   e:\xx.zip
+	1. os的目录操作
+
+			获取当前的目录： .       os.curdir
+			获取当前目录的完整路径： os.getcwd()  :  c:\Users\cindy
+			current,
+			work
+			dir
+
+		 	获取当前目录下所有文件： os.listdir(‘.’)
+			获取当前目录下某一个子目录下的所有文件: os.listdir(‘./sql’)
+			  sql是一个有效的子目录名称
+			获取当前目录的上一级目录的所有文件： os.listdir(‘..’)
+
+
+	   创建、重命名和删除目录：
+				创建： os.mkdir()  参数可以相对路径也可以绝对路径
+								 os.mkdir(‘yyyyy’)
+								 os.mkdir(‘d:/xxxxx’)
+				重命名： os.rename(原文件目录名， 新的文件目录名)
+									 os.rename(‘d:/aa.txt’, ‘d:/bb.txt’)
+									 os.rename(‘yyyyy’, ‘day08_test’)
+									 os.rename(‘d:/xxxxx’, ‘d:/day08_files’)
+
+				删除：  os.rmdir(‘day08_test’)
+									os.rmdir(‘d:/day08_files’)
+
+				删除文件： os.remove(‘d:/bb.txt’) 删除文件
+													练习一、：
+			1. 编写脚本，实现文件的重命名功能
+				用 sys.argv		接收命令行的参数（2个： 原名，新名）]
+			python rename.py  aa.txt  bb.txt
+			python rename.py  d:/fns.txt  d:/fns_day08.txt
+		    python rename.py  ../day02_file/aa.py   ../day02_file/bb.py
+
+			2. 编写脚本，实现文件的彻底删除功能
+				用 sys.argv  接收命令行的一个参数（文件名)
+
+			3. 实现文件目录的创建
+			   sys.argv  接收目录的名称
+
+
+	  获取文件的描述信息：(用户id, 组id, 大小，访问时间，修改时间，创建时间)：
+			os.stat(文件路径)  返回 stat_result类的对象
+			访问类的访问值时：
+					类对象名.属性名
+
+
+	练习二：
+			1.  获取指定目录下文件列表，将所有.txt文件全部删除
+				  要求：1.如果目录不存在，则提示用户输入错误
+								  2. 判断文件的扩展名是否为.txt
+							      3. 文件删除后，输出提示信息
+
+			2.  获取指定目录下文件列表，显示文件名和文件大小
+			   文件大小的单位可用： bytes、k、m
+

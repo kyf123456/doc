@@ -1,0 +1,68 @@
+一、回顾昨天知识点
+   1.  pymongo模块
+	  pip3 install pymongo
+	  from pymongo import MongoClient
+
+	  client = MongoClient()  # 默认连接127.0.0.1, 端口27017	  # client = MongoClient(ip, port)
+	  # client.auth(username, password)
+
+       db = client.banks  # 打开mongo的banks库
+	 datas = db.bank.find()  # 针对banks库中bank集合进行查找
+
+	  n_id = db.bank.insert({“name”:”value”})
+
+    2. redis数据库
+		配置文件： /etc/redis/redis.conf
+	      修改口令： 修改配置文件中的 requirepass
+		修改IP地址： 修改配置文件中 bind  127.0.0.1 ::1
+
+		 备份数据：  /var/lib/redis/dump.rdb   # 存放都是save保存数据
+		 reids服务：  redis-server,  apt install redis-server,  service redis-server status
+		 进入redis环境： redis-cli
+							redis-cli -h ip  -p port  -a password
+		redis的端口： 6379
+
+		redis的数据类型：
+				string/list/set/hash
+		常用操作命令：
+				set key value
+				get key
+				type key
+				del key
+
+				lset key index value  # 设置指定位置的元素值
+				lpush key value  value [value …]
+				rpush key value value [value …]
+				lpop
+				rpop
+				lrange key start end
+				llen
+				lindex key index  # 获取指定位置的值
+
+				sadd key value [value …]
+				smembers key  查看所有元素
+				sismember key member
+				srem key member [member …]  # 删除元素
+
+
+    3. redis模块
+		  pip3 install redis
+		  import redis
+		  db = redis.Redis()    # 默认当前的主机的redis环境
+		  #  Redis()/StrictRedis()构造方法可以有哪些参数
+			 host 远程主机的ip
+			 port 主机端口
+			 password 授权口令
+			 db 数据库的索引
+			 decode_responses False 响应的数据是否解码 decode()
+
+		 db.set(“keyname”,”value”)
+		 db.get(“keyname”)
+		 db.delete(“keyname”)
+
+		 db.lpush(“keyname”, “value1”, “value2”)
+		 db.lpop(“keyname”)
+
+		查看 Redis类的文档 ： help(redis.Redis)   /  help(redis.StrictRedis)
+
+

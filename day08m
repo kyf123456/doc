@@ -1,0 +1,24 @@
+1.  元组和列表数据是否可以相互转换，如果可以请写出相关代码
+	 可以，
+	 list()   tuple()
+		l = [10, 11 , 12],     t = (10, 11, 12)
+	    t = tuple(l)   :  list- > tuple
+		ll = list(t)   :    tuple -> list
+
+
+2.  写出作为函数参数的*args和**kwargs的数据类型
+		* args ：  tuple 元组，表示可以调用函数时传入多个参数
+		**kwargs:  dict 字典， 表示可以调用函数时以关键参数方式参入数据
+										   key=value
+
+3. 编写函数，实现以读写二进制方式，打开当前目录下的a.txt文件，
+	并写入两行内容(任意)
+
+		def writeBytes(path):
+			  with open(path, ‘w+b’) as f:
+					  f.write(bytes(‘您好\n’, encoding=‘utf-8’))
+					  f.write(bytes(‘下午好好上课’))
+
+
+
+

@@ -1,0 +1,63 @@
+1.  给定url路径 http://127.0.0.1/search/user/1001
+	1）如何在urls.py路由中配置
+      a. 认为url路径中search是一个模块app(如， searchapp)
+	    在总urls路由：
+			  path(‘search/’, include(‘searchapp.urls’ , namespace=‘search’))
+		在searchapp的urls分路由：
+			app_name = ‘searchapp’
+			path(‘user/<int:id>’, views.searchUser,  name=‘user’)
+			或 re_path(r’^user/(?P<id>\d+)$’, views.searchUser, name=‘user’)
+
+		b. 认为url路径是总路由的请求路径
+			path(‘search/<str:mname>/<int:id>’,  views.search, name=‘search’)
+
+	2）如何在views.py中声明请求处理函数
+		a) def searchUser(req, id): . ..
+		b) def search(req, mname, id): …
+
+   3）如何在html中使用{% url %} 获取
+		 a) {% url ‘search:user’ 1001 %}
+		 	 或
+			 {% url ‘search:user’ id=1001 %}
+
+		 b) {% url  ‘search’ ‘user’ 1001 %}
+			或
+			{% url  ‘search’ mname=‘user’ id=1001 %}
+
+   4）如何在reverse中使用
+		a) reverse(‘search:user’,args=(1001, )  )
+			或
+				reverse(‘search:user’,kwargs={‘id’:1001} )
+
+		b) reverse(’search’, args=(‘user’, 1001))
+			或
+			reverse(‘search’, kwargs={‘mname’:’user’, ‘id’:1001})
+
+2. 简单说明Cookie和Session的区别和用法
+	区别：1）Cookie是客户端使用， Session是服务器使用的
+			  2）添加Cookie使用的是respnse对象， session使用的是request对象
+			  3）cookie是存在客户端，并且不能跨域（服务器之间），session存在数据库的django_session表中
+			  4）session依赖cookie,session表中的session_key和cookie.sessionid对应（相同）
+
+	Cookie的用法：
+			response.set_cookie(key, value, max_age=10000, expire=datetime.strptime(‘时间字符串’,’格式’))
+			response.delete_cookie(key)
+			读取cookie:   request.COOKIES.get(key)
+	Session的用法：
+			request.session[key] = value
+			request.session[key]  或  request.session.get(key)
+			request.session.flush()  清空cookie和session
+			request.session.clear()  清空所有的session,在数据库中会保留session记录，只会删除session_data中的所有key.
+
+3. 写出HttpRequest类对象中常用的属性
+	path 请求路径
+	method 请求方法(get, post, put, delete)
+	GET
+	POST
+	FILES  上传文件使用的
+	META  存放客户端环境变量、IP、请求头等
+	session
+	COOKIES
+
+	扩展： get_host()  获取客户端的ip地址
+

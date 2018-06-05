@@ -1,0 +1,53 @@
+1.  编写定时任务，要求每天晚上11点59分 备份redis的数据
+    要求：在root用户下添加定时任务
+    提示：crontab  xxx.cron
+
+    su root
+    vi ~/cp_rdb.sh
+    内容：
+         #!/bin/bash
+         d = $(date -Idate)
+         cp -f /var/lib/redis/dump.rdb /root/dump”$d”.rdb
+
+	chmod +x cp_rdb.sh
+
+    vi ~/cp_rdb.cron
+    内容：
+		 59 23 * * * /root/cp_rdb.sh
+
+	crontab cp_rdb.cron
+
+
+2. 进入redis的3号库，创建用于存入某一商品的库存量的key, 模拟下订单时减少库存量，取消订单时加上库存量
+   redis-cli
+   select 3
+   set 1099 100
+
+   decrby 1099 10  # 减去10
+   incrby 1099 10  ＃加上10
+
+3. 进入redis的4号库， 创建用于下订单时，存放商品id的集合，和存放订单总额的key
+   并模拟添加数据和设置有效时长为30分钟
+   redis-cli
+   select 4
+   sadd order_ids 1099 1088 1200
+   set orders_money  12000
+
+    expire order_ids 1800
+    expire orders_money 1800
+
+
+4.  编写Python脚本， 读取redis的4号库中存放的所有已下订单的商品，并去除商品id为1099的商品
+  vi readOrder.py
+  内容：
+		#!/usr/bin/python3
+         import redis
+		client = redis.Redis(host=“10.35.163.5”, port=6379, password=“dsien888”, db=4, decode_responses=True)
+		datas = client.smembers(“orders_ids”)
+         for data in datas:
+			print(data)
+	         if data==’1099’:
+                 client.srem(“orders_ids”, data)
+
+chmod +x readOrder.py
+./readOrder.py

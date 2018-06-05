@@ -1,0 +1,90 @@
+一、回顾昨天知识点
+  1.  对象的创建
+     1）  new Object()
+	 2)   {  }
+	 3) 构造函数  function Person(){ },  在构造函数使用this关键字来初始化对象的属性。
+2.  对象的属性访问
+		1)  对象名.属性名
+		2) 对象名[“属性名”]
+3. js对象和json字符串相互转换
+		对象->json:   JSON.stringify(对象名);
+		json->对象：  JSON.parse(json_str);
+
+4. 可以通过for-in 方式来迭代获取对象的所有属性。
+		for(var property in obj){
+			console.log(obj[property]);
+		}
+5. 正则表达式
+1） 创建正则表达式对象（Regular Expression—>RegExp）
+			/regexp/argments:    /abc/i
+			new RegExp(“regexp”, argments)
+		   argments可选参数：  i , g , m
+2) 正则对象的两个核心方法
+			test()  :  返回true或false
+			exec():  返回匹配的数据
+3）正则表达式
+				[a-z]  可选范围
+				\w
+				\d
+				\s
+				.
+				量词表示：
+					*  0次或多次
+					+   至少1次
+					?   0次或1次
+					{n}  n个
+					{n,}  至少n个
+					{n,m} n到m个
+
+				分组:
+				 (),   通过RegExp.$1..99  来获取分组信息。
+6. String类型的方法（可以使用正则的方法）
+search(regexp/substr), 返回第一个匹配子字符串的索引位置，如果没有查找到，则返回-1。类似python的find()函数。
+	match(regexp) 返回匹配的所有的子字符串（数组）。
+	replace(regexp/substr,  “新的内容”)  替换
+	substr(start,length)  截取字符串，从start位置开始，截取length长度的子字符串。
+7. 日期Date
+	var d = new Date()  获取当前日期
+	Date.now() /new Date().getTime() 获取当前时间的时间戳
+		年： d.getFullYear()
+		月： d.getMonth() +1 ,
+		日： d.getDate()
+		时： d.getHours()
+		分： d.getMinutes()
+		秒： d.getSeconds()
+8. 定时器
+setInterval(函数名， 间隔时间(单位：ms))  返回定时器的id
+clearInterval(定时器的id) 停止或关闭定时器
+tTimeout(函数名， 延迟的时间(单位：ms)) 延迟执行函数， 只执行一次。
+9.  DOM 相关的操作
+	以标签名获取HTML标签对象：
+	document.getElementsByTagName(“标签名”)  返回数组
+	以<input>标签的name属性来获取Input标签对象
+	document.getElementsByName(“xxx”)  返回数组
+		 获取某一个标签对象的下一个兄弟标签对象：
+				xxx.nextElementSibling()
+		 设置标签对象的样式类名（< span class=“error”>）
+				xxx.className=“error”;
+
+	禁用某一个标签对象（不能执行相关事件（点击、获取焦点））
+			xxx.disabled=“disabled”;
+二、 Ajax异步请求
+
+		1. 创建异步请求对象
+			var xhr = new XMLHttpRequest();
+		2. 打开请求连接
+			xhr.open(“get”, “cities.json”,true);
+		3. 设置请求完成后的监听函数 onload
+			xhr.onload = function(){
+	     //5. 处理数据
+		var data = xhr.responseText;  //获取响应的数据
+			}
+		4.  发送请求
+			xhr.send();
+作业：
+		1. http://api.qingyunke.com/api.php?key=free&appid=0&msg=笑话
+
+		2. https://www.sojson.com/open/api/lunar/json.shtml?date=2018-05-3
+
+
+

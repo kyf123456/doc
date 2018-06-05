@@ -1,0 +1,17 @@
+1.  如何引入网页外部的js脚本？
+ <script type=“text/javascript” src=“xxx.js”> </script>
+
+
+2.  编写脚本，读取网页中<input id=“n1” value=“20”> 标记的value值
+<script>
+    alert(document.getElementById(“n1”).value);
+<script>
+
+3. 编写js脚本，向网页中<div id=“content”>标记中插入一张图片，图片的宽度和高度适应<div>的宽高
+  var content = document.getElementById(“content”);
+  content.innerHTML += “<img src=‘xxx.jpg’ width=’100%’ height=‘100%’>”;
+
+
+4.  parseInt() 和 Number() 之间的区别
+   parseInt() 获取字符串中以数字开头的数字部分， 如果开头是非数字，则返回NaN
+   Number() 字符串中如果出现了非数字，则返回 NaN, 比parseInt()的要求高。

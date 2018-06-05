@@ -1,0 +1,43 @@
+1.  在git的本地仓库中，通过命令配置用户的email和name和添加远程仓库
+	git config --global user.email “aa@qq.com”
+    git config --global user.name “aaa”
+
+     git remote add origin git@github.com:disenQF/sql.git
+
+	  # git remote rm origin  去除 远程仓库
+
+2.  通过scp 将本地的 sql 文件目录上传到 git@10.35.163.5的 /home/git/uploads目录中
+
+	 scp -r sql git@10.35.163.5:~/uploads
+
+3. 在mysql中，存在如下表：
+	user 用户表 (id 编号, name 用户名, passwd 口令 )
+	u_order 订单表(id 编号 , user_id 用户编号,  name 商品名,  money 订单金额， pay_st 支付状态 ， od_time 下单时间 )
+	其中, u_order 表中pay_st 的值 1 为已支付， 0 为未支付  2为 正在支付
+
+	要求： 统计下单时间在 2018-10-10  到 2018-10-15 之间所有已支付的订单总额，最大订单金额和最小订单金额
+
+	select sum(money), max(money), min(money)
+    from u_order
+	where date(od_time) between ‘2018-10-10’ and ‘2018-10-15’
+	and pay_st = 1
+
+4. 在mongodb中，创建orders 库，并在orders库下 创建订单集合，向订单集合中插入一条订单数据。
+    提示：订单集合的结构 同第3题的u_order 表
+
+	mongo
+  >  use orders
+  >  db.createCollection(“uorder”)
+  > db.uorder.insert({_id:1, user_id: 1, name:”华为P20”, money:8500, pay_st:1, od_time:”2018–04-12”})
+
+5. 编写python脚本， 读取mongodb中orders库中所有订单的数据。
+ #!/usr/bin/python3
+ # coding:utf-8
+ from pymongo import MongoClient
+ client = MongoClient()
+ db = client.orders   # 选择数据库
+ datas = db.uorder.find()  # 查询uorder集合
+ for data in datas:
+      print(data)
+
+

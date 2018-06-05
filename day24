@@ -1,0 +1,74 @@
+一、回顾昨天知识点
+
+	1.  用户管理
+		sudo useradd -d /home/cici -rm cici
+		sudo usermod cici -l tomy  # 修改用户名为 tomy
+		sudo passwd tomy   # 提示输入两个密码（一样）
+
+		sudo userdel -r tomy  #rm -r /home/cici, rm -r /var/mail/tomy
+
+		su tomy  # 切换用户
+
+		查看所有用户
+		cat /etc/passwd
+
+	    sudo groupadd mysql
+
+		修改 tomy用户的主组为 mysql
+		sudo usermod tomy -g mysql
+
+		删除组（前提组下没有用户）
+		sudo groupdel cici
+
+
+	  解决 sudoers 问题： 新用户默认不能使用 sudo
+			cat /etc/sudoers
+			vi /etc/sudoers
+			修改内容如下：
+					在 root ALL=(ALL:ALL) ALL 下一行添加内容：
+					    tomy  ALL=(ALL:ALL) ALL
+
+
+	解决vim-tiny版本的方向键的问题：
+		cat /etc/vim/vimrc.tiny
+		vi /etc/vim/vimrc.tiny
+		修改内容：
+				set nocompatible
+				set backspace=2
+
+   vim编辑器的使用：
+		三个模式：普通、编辑、命令
+		进入普通： Esc 或 Delete
+		进入命令：先进入 普通， 再按 Shift + :
+		进入编辑：i , Shift+i, a, shift+a, o, shift+o, r, shift+r
+
+		普通模式：
+				Shift+i  行首
+				shift+a  行尾
+				shift+g:  最后一行
+				gg:        第一行，  shift+:  1
+				h,j,k,l  :   左、下、上、右
+				u:  撤消之前的动作
+				ctrl+r ：取消撤消
+				 . ：  重新执行上一次动作
+				v:   视图模式，可移动方向键选择				V:   视图模式，一行一行选择
+				ctrl+f: 下一页
+				ctrl+b: 上一页
+
+				yy:  复制, nyy
+				dd:  删除 [ctrl+x]，ndd, d, nd
+				p:  粘贴
+	命令模式：
+			set number
+			/字符  查找指定字符
+			2,3s/原字符/新字符/g
+			x  保存退出， 如果没有任何修改，不会更改文件的修改时间
+			wq 保存退出， 更改文件的修改时间
+			q! 强退出
+
+
+
+
+
+
+

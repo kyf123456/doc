@@ -1,0 +1,35 @@
+1. 给定两个时间，计算两个时间差的 天数，秒数和毫秒数
+   示例： s1=’17-10-21 18:20:35.299’,  s2 = ’17-11-15 09:10:56.211’
+
+	from datetime import datetime
+
+	t1 = datetime.strptime(s1, ‘％y-%m-%d %H:%M:%S.%f’)
+	t2  = datetime.strptime(s2, ‘％y-%m-%d %H:%M:%S.%f’)
+	delta_ = t2 - t1
+	print(delta_.days, delta_.seconds, delta_.microseconds)
+
+
+2. 如何在tkinter窗口的底部 添加一个图片，图片的显示大小是300x400
+
+	from PIL import Image, ImageTk
+	from tkinter import *
+
+	img = Image.open(‘aa.jpg’)
+	img = img.resize((300, 400), Image.ANTIALIAS)
+
+	imgPhoto = ImageTk.PhotoImage(img)
+	imgLabel = Label(master, image=imgPhoto)
+
+	imgLabel.pack(side=BOTTOM)
+
+
+3.   给定一个listFiles函数, 如何将此函数运行在线程中
+
+	def  listFiles(path):
+		for fileName in os.listdir(path):
+			print(fileName)
+			time.sleep(0.2)
+
+	Thread(target=listFiles, args=(‘.’, )).start()
+
+

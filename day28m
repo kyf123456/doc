@@ -1,0 +1,39 @@
+1.  现有用户 tome ， 在它的home目录下，有一个bank文件夹，
+    现有 github的仓库，它的http位置是 https://github.com/disenQF/mysql_py.git
+
+    要求： 将bank 文件夹打包成 bank.tar.gz , 将后再 上传到github仓库中
+
+	 su tome
+	 cd ~
+	 tar -zcvf bank.tar.gz  bank
+	 git clone https://github.com/disenQF/mysql_py.git
+	 cd mysql_py
+	 git config －－global user.name “tome”
+	 git config －－global user.email “tome@qq.com”
+	 mv ~/bank.tar.gz  .
+	 git add bank.tar.gz
+	 git commit -m “add bank.tar.gz”
+     git push   #  git pull  , 提示输入github账号和口令
+
+2.  在mysql中创建 banks 库， 在此库下创建bank表，并以批量方式向bank表增加3条数据
+	bank表的字段有：  id,name,address,city,phone
+	create database banks;
+	use banks;
+	create table bank(id int, name varchar(20), address varchar(50), city varchar(50), phone varchar(12));
+	insert into bank
+	values (1,’工商银行’,’长安街120’,’咸阳’,’029-11043389’),
+              (2,’工商银行’,’济安街121’,’西安’,’029-88043389’),
+			    (3,’工商银行’,’高新六路120’,’西安’,’029-89043389’);
+
+3.  对bank表添加一个open_time 开放时间的字段，并设置默认值 ’08:00’
+	alter table bank add open_time varchar(10) default ’08:00’;
+
+4. 修改bank表的city字段名为 cityname,并设置默认值为 ‘西安’
+	alter table bank change city cityname varchar(50) default ‘西安’;
+
+5. 从bank表中查找 phone 为 029-88561230的银行名和地址
+ select name,address from bank
+ where phone = ’029-88561230’;
+
+6. 更新bank表中所有‘西安’城市的银行为 ‘长安’
+	update bank set cityname = ‘长安’ where cityname = ‘西安’;

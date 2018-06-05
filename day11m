@@ -1,0 +1,29 @@
+day11天默写题：
+
+	1.  简要说明栈和队列的区别，如何实现它们的功能
+		栈： 先进后出， 队列： 先进先出
+		实现它们的功能：
+		栈  ：  list列表， append() 压栈, pop() 出栈
+		队列： collections.deque， appendleft() 左入列 ， pop() 右出列
+				   								   append()  右入列,     popleft() 左出列
+
+    2.  简要说明什么时候要处理异常(Error), 并写出一个简单地处理异常的demo
+		1）在程序处理的时候，如IO操作(File的打开、读取、写入)，可能会存在错误(文件不存在、编码错误)等，为了保证程序的正常运行，我们需要处理异常。
+
+
+		2） try:
+					f = open(‘a.txt’)  # a.txt文件可能不存在
+					print(f.read())
+			   except FileNotFoundError as e:
+					print(‘文件不存在错误’)
+			 [ finally:
+					print(‘文件读取结束’) ]
+
+	3. 对于不存在的目录，如果程序需要创建的时，如何做？
+		 1)使用哪个模块：os模块
+		 2) 文件判断是否存在 os.path.exists(path)
+		 3) 目录创建的：
+						只有一级子目录： os.mkdir(path)
+						如果有多级子目录： os.makedirs(path)
+
+
